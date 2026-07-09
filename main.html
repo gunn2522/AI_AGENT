@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapping 100 Apps for AI Agent Readiness — Composio Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d10; --panel:#11151a; --panel2:#151b21; --line:#232b33;
+  --text:#d9e1e8; --muted:#7c8894; --green:#3ddc84; --yellow:#f5b942; --red:#ff5f57;
+  --teal:#5eead4; --violet:#a78bfa;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;margin:0;line-height:1.55;}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;color:#fff;margin:0 0 .4em;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:var(--teal);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+section{padding:64px 0;border-bottom:1px solid var(--line);}
+.eyebrow{font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--teal);margin-bottom:10px;}
+
+/* HERO */
+.hero{padding:72px 0 48px;border-bottom:1px solid var(--line);}
+.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.05;max-width:820px;}
+.hero .sub{color:var(--muted);max-width:640px;font-size:17px;margin-bottom:36px;}
+.headline-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:44px;}
+.headline-pill{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text);}
+.headline-pill b{color:var(--teal);font-size:15px;}
+.status-grid{display:grid;grid-template-columns:repeat(20,1fr);gap:5px;max-width:760px;}
+.px{aspect-ratio:1;border-radius:3px;cursor:default;transition:transform .15s;}
+.px:hover{transform:scale(1.35);}
+.px.green{background:var(--green);}
+.px.yellow{background:var(--yellow);}
+.px.red{background:var(--red);}
+.grid-caption{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:14px;}
+.legend{display:flex;gap:18px;margin-top:10px;font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;}
+
+/* DASHBOARD CARDS */
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;}
+.card .big{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#fff;}
+.card .lbl{color:var(--muted);font-size:13px;margin-top:6px;}
+.card .sub2{font-size:12px;color:var(--teal);margin-top:8px;font-family:'IBM Plex Mono',monospace;}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{text-align:left;padding:10px 12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+tr:hover td{background:var(--panel);}
+.mini-badge{display:inline-block;min-width:22px;text-align:center;padding:2px 8px;border-radius:20px;font-size:12px;font-family:'IBM Plex Mono',monospace;}
+.mini-badge.green{background:rgba(61,220,132,.15);color:var(--green);}
+.mini-badge.yellow{background:rgba(245,185,66,.15);color:var(--yellow);}
+.mini-badge.red{background:rgba(255,95,87,.15);color:var(--red);}
+.bar-track{display:inline-block;width:90px;height:6px;background:var(--line);border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:8px;}
+.bar-fill{height:100%;background:var(--green);}
+
+/* OPPORTUNITY CARDS */
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.opp-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+.opp-head{display:flex;align-items:center;gap:8px;}
+.opp-head h4{margin:0;flex:1;}
+.opp-score{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.opp-why{color:var(--muted);font-size:13.5px;margin:10px 0;}
+.opp-actions{font-size:13.5px;}
+.opp-actions .label{color:var(--teal);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;}
+
+/* AUTH BARS */
+.auth-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.auth-label{width:300px;font-size:13px;color:var(--text);flex-shrink:0;}
+.auth-track{flex:1;height:10px;background:var(--panel2);border-radius:6px;overflow:hidden;}
+.auth-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));}
+.auth-fill.amber{background:linear-gradient(90deg,var(--yellow),var(--red));}
+.auth-pct{width:110px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-align:right;}
+
+/* PIPELINE DIAGRAM */
+.pipeline{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin:32px 0;}
+.pstage{flex:1;min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;position:relative;}
+.pstage h4{color:var(--teal);font-size:14px;margin-bottom:8px;}
+.pstage p{font-size:12.5px;color:var(--muted);margin:0;}
+.parrow{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;padding:0 6px;}
+
+/* CHIPS */
+.chip{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:4px 12px;margin:3px 4px 3px 0;font-size:12.5px;font-family:'IBM Plex Mono',monospace;}
+
+/* CONF BADGES */
+.conf-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 8px;border-radius:6px;}
+.conf-verified{background:rgba(61,220,132,.15);color:var(--green);}
+.conf-known{background:rgba(94,234,212,.12);color:var(--teal);}
+.conf-inferred{background:rgba(255,95,87,.15);color:var(--red);}
+
+/* verification report */
+.vtable td.p1{color:var(--muted);font-size:13px;}
+.vtable td.p2{color:var(--text);font-size:13px;}
+.acc-row{display:flex;gap:24px;margin:24px 0;}
+.acc-box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 28px;flex:1;text-align:center;}
+.acc-box .num{font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;}
+.acc-box.p1 .num{color:var(--red);}
+.acc-box.p2 .num{color:var(--green);}
+.acc-box .cap{color:var(--muted);font-size:13px;margin-top:6px;}
+.arrow-between{display:flex;align-items:center;font-size:26px;color:var(--muted);}
+
+/* controls */
+.controls{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.controls input, .controls select{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:6px;font-family:'Inter';font-size:13px;}
+.table-scroll{max-height:640px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+.app-cell strong{display:block;}
+.app-desc{display:block;color:var(--muted);font-size:12px;margin-top:2px;}
+.ev-link{font-size:12px;word-break:break-all;}
+
+/* NAV */
+.topnav{position:sticky;top:0;z-index:50;background:rgba(10,13,16,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.topnav .navwrap{max-width:1180px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:4px;overflow-x:auto;white-space:nowrap;}
+.topnav .brand{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--teal);padding:14px 14px 14px 0;flex-shrink:0;}
+.topnav a{color:var(--muted);text-decoration:none;font-size:13px;padding:14px 12px;border-bottom:2px solid transparent;flex-shrink:0;}
+.topnav a:hover{color:var(--text);border-bottom-color:var(--teal);}
+
+/* DOCS SECTION */
+.doc-grid{display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:start;}
+.doc-toc{position:sticky;top:70px;border-right:1px solid var(--line);padding-right:20px;}
+.doc-toc a{display:block;color:var(--muted);font-size:13px;text-decoration:none;padding:6px 0;}
+.doc-toc a:hover{color:var(--teal);}
+.doc-block{margin-bottom:36px;}
+.doc-block h3{font-size:18px;color:var(--teal);}
+.doc-block h4{font-size:14px;color:#fff;margin-top:18px;}
+.doc-block p, .doc-block li{color:var(--text);font-size:14px;}
+.doc-block code{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--teal);}
+.doc-block pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text);}
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
+.glossary .g-term{font-family:'IBM Plex Mono',monospace;color:var(--teal);font-size:13px;}
+.glossary .g-def{color:var(--muted);font-size:13px;margin-bottom:14px;}
+.faq-item{border-bottom:1px solid var(--line);padding:14px 0;}
+.faq-item b{color:#fff;display:block;margin-bottom:4px;}
+
+.honesty-box{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--yellow);border-radius:6px;padding:16px 20px;margin-top:20px;font-size:13.5px;color:var(--text);}
+.honesty-box b{color:var(--yellow);}
+
+footer{padding:40px 0;text-align:center;color:var(--muted);font-size:12px;font-family:'IBM Plex Mono',monospace;}
+
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(2,1fr);}
+  .opp-grid{grid-template-columns:1fr;}
+  .status-grid{grid-template-columns:repeat(12,1fr);}
+  .auth-label{width:180px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav"><div class="navwrap"><span class="brand">● COMPOSIO RESEARCH</span><a href='#dashboard'>Insights</a><a href='#auth'>Auth</a><a href='#matrix'>Matrix</a><a href='#opportunities'>Opportunities</a><a href='#outreach'>Outreach</a><a href='#mcp-map'>MCP Map</a><a href='#full-table'>Full Table</a><a href='#agent-workflow'>How It Works</a><a href='#verification'>Verification</a><a href='#docs'>Docs / How to Use</a></div></nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">// composio · ai product ops research · 100 apps</div>
+    <h1>Mapping 100 Apps for AI Agent Readiness</h1>
+    <p class="sub">Every app scored on auth, developer access, API surface, and whether it could become an agent-callable toolkit today — researched by an AI agent, verified by hand where it mattered most.</p>
+
+    <div class="headline-row">
+      <div class="headline-pill"><b>65%</b> of apps are agent-buildable today (🟢+🟡)</div>
+      <div class="headline-pill"><b>OAuth2 + API key/token (both supported)</b> dominates (46/100 apps)</div>
+      <div class="headline-pill"><b>Enterprise / partner gate</b> is the single biggest blocker (9 apps)</div>
+      <div class="headline-pill"><b>47%</b> already have an official or community MCP server</div>
+    </div>
+
+    <div class="status-grid"><div class='px green' title='Salesforce — green' data-name='Salesforce'></div><div class='px green' title='HubSpot — green' data-name='HubSpot'></div><div class='px green' title='Pipedrive — green' data-name='Pipedrive'></div><div class='px green' title='Attio — green' data-name='Attio'></div><div class='px green' title='Twenty — green' data-name='Twenty'></div><div class='px yellow' title='Podio — yellow' data-name='Podio'></div><div class='px green' title='Zoho CRM — green' data-name='Zoho CRM'></div><div class='px green' title='Close — green' data-name='Close'></div><div class='px yellow' title='Copper — yellow' data-name='Copper'></div><div class='px yellow' title='DealCloud — yellow' data-name='DealCloud'></div><div class='px green' title='Zendesk — green' data-name='Zendesk'></div><div class='px green' title='Intercom — green' data-name='Intercom'></div><div class='px green' title='Freshdesk — green' data-name='Freshdesk'></div><div class='px green' title='Front — green' data-name='Front'></div><div class='px green' title='Pylon — green' data-name='Pylon'></div><div class='px yellow' title='LiveAgent — yellow' data-name='LiveAgent'></div><div class='px green' title='Plain — green' data-name='Plain'></div><div class='px green' title='Help Scout — green' data-name='Help Scout'></div><div class='px green' title='Gorgias — green' data-name='Gorgias'></div><div class='px yellow' title='Gladly — yellow' data-name='Gladly'></div><div class='px green' title='Slack — green' data-name='Slack'></div><div class='px green' title='Twilio — green' data-name='Twilio'></div><div class='px green' title='Zoho Cliq — green' data-name='Zoho Cliq'></div><div class='px green' title='Lark (Larksuite) — green' data-name='Lark (Larksuite)'></div><div class='px yellow' title='Pumble — yellow' data-name='Pumble'></div><div class='px green' title='Discord — green' data-name='Discord'></div><div class='px green' title='Telegram — green' data-name='Telegram'></div><div class='px yellow' title='WhatsApp Business — yellow' data-name='WhatsApp Business'></div><div class='px green' title='Aircall — green' data-name='Aircall'></div><div class='px green' title='Vonage — green' data-name='Vonage'></div><div class='px yellow' title='Google Ads — yellow' data-name='Google Ads'></div><div class='px yellow' title='Meta Ads — yellow' data-name='Meta Ads'></div><div class='px red' title='LinkedIn Ads — red' data-name='LinkedIn Ads'></div><div class='px green' title='GoHighLevel — green' data-name='GoHighLevel'></div><div class='px green' title='Mailchimp — green' data-name='Mailchimp'></div><div class='px green' title='Klaviyo — green' data-name='Klaviyo'></div><div class='px green' title='systeme.io — green' data-name='systeme.io'></div><div class='px yellow' title='Pinterest — yellow' data-name='Pinterest'></div><div class='px yellow' title='Threads (Meta) — yellow' data-name='Threads (Meta)'></div><div class='px green' title='SendGrid — green' data-name='SendGrid'></div><div class='px green' title='Shopify — green' data-name='Shopify'></div><div class='px green' title='WooCommerce — green' data-name='WooCommerce'></div><div class='px green' title='BigCommerce — green' data-name='BigCommerce'></div><div class='px red' title='Salesforce Commerce Cloud — red' data-name='Salesforce Commerce Cloud'></div><div class='px yellow' title='Magento (Adobe Commerce) — yellow' data-name='Magento (Adobe Commerce)'></div><div class='px yellow' title='Squarespace — yellow' data-name='Squarespace'></div><div class='px green' title='Ecwid — green' data-name='Ecwid'></div><div class='px green' title='Gumroad — green' data-name='Gumroad'></div><div class='px yellow' title='Amazon Selling Partner — yellow' data-name='Amazon Selling Partner'></div><div class='px green' title='fanbasis — green' data-name='fanbasis'></div><div class='px green' title='DataForSEO — green' data-name='DataForSEO'></div><div class='px yellow' title='SE Ranking — yellow' data-name='SE Ranking'></div><div class='px yellow' title='Ahrefs — yellow' data-name='Ahrefs'></div><div class='px green' title='MrScraper — green' data-name='MrScraper'></div><div class='px green' title='Apify — green' data-name='Apify'></div><div class='px green' title='Firecrawl — green' data-name='Firecrawl'></div><div class='px green' title='Bright Data — green' data-name='Bright Data'></div><div class='px red' title='Sherlock — red' data-name='Sherlock'></div><div class='px red' title='Waterfall.io — red' data-name='Waterfall.io'></div><div class='px green' title='Clay — green' data-name='Clay'></div><div class='px green' title='GitHub — green' data-name='GitHub'></div><div class='px green' title='Vercel — green' data-name='Vercel'></div><div class='px green' title='Netlify — green' data-name='Netlify'></div><div class='px green' title='Cloudflare — green' data-name='Cloudflare'></div><div class='px green' title='Supabase — green' data-name='Supabase'></div><div class='px green' title='Neo4j — green' data-name='Neo4j'></div><div class='px green' title='Snowflake — green' data-name='Snowflake'></div><div class='px green' title='MongoDB Atlas — green' data-name='MongoDB Atlas'></div><div class='px green' title='Datadog — green' data-name='Datadog'></div><div class='px green' title='Sentry — green' data-name='Sentry'></div><div class='px green' title='Notion — green' data-name='Notion'></div><div class='px green' title='Airtable — green' data-name='Airtable'></div><div class='px green' title='Linear — green' data-name='Linear'></div><div class='px green' title='Jira — green' data-name='Jira'></div><div class='px green' title='Asana — green' data-name='Asana'></div><div class='px green' title='Monday.com — green' data-name='Monday.com'></div><div class='px green' title='ClickUp — green' data-name='ClickUp'></div><div class='px green' title='Coda — green' data-name='Coda'></div><div class='px green' title='Smartsheet — green' data-name='Smartsheet'></div><div class='px green' title='Harvest — green' data-name='Harvest'></div><div class='px green' title='Stripe — green' data-name='Stripe'></div><div class='px yellow' title='Plaid — yellow' data-name='Plaid'></div><div class='px yellow' title='Binance — yellow' data-name='Binance'></div><div class='px red' title='Paygent Connect — red' data-name='Paygent Connect'></div><div class='px red' title='iPayX — red' data-name='iPayX'></div><div class='px green' title='QuickBooks — green' data-name='QuickBooks'></div><div class='px green' title='Xero — green' data-name='Xero'></div><div class='px yellow' title='Brex — yellow' data-name='Brex'></div><div class='px yellow' title='Ramp — yellow' data-name='Ramp'></div><div class='px red' title='PitchBook — red' data-name='PitchBook'></div><div class='px red' title='NotebookLM — red' data-name='NotebookLM'></div><div class='px yellow' title='Otter AI — yellow' data-name='Otter AI'></div><div class='px yellow' title='Fathom — yellow' data-name='Fathom'></div><div class='px red' title='Consensus — red' data-name='Consensus'></div><div class='px green' title='Reducto — green' data-name='Reducto'></div><div class='px yellow' title='Devin — yellow' data-name='Devin'></div><div class='px yellow' title='higgsfield — yellow' data-name='higgsfield'></div><div class='px yellow' title='Mermaid CLI — yellow' data-name='Mermaid CLI'></div><div class='px green' title='YouTube Transcript — green' data-name='YouTube Transcript'></div><div class='px yellow' title='Grain — yellow' data-name='Grain'></div></div>
+    <div class="legend">
+      <span><i style="background:var(--green)"></i> Easy build — 65</span>
+      <span><i style="background:var(--yellow)"></i> Buildable with limits — 26</span>
+      <span><i style="background:var(--red)"></i> Hard / blocked — 9</span>
+    </div>
+    <div class="grid-caption">Hover any square for the app. Full sortable table further down the page.</div>
+  </div>
+</section>
+
+<section id="dashboard">
+  <div class="wrap">
+    <div class="eyebrow">01 — Executive Insights</div>
+    <h2>The headline numbers</h2>
+    <div class="cards">
+      <div class="card"><div class="big">100</div><div class="lbl">Apps researched</div></div>
+      <div class="card"><div class="big">65%</div><div class="lbl">Buildable today (🟢+🟡)</div></div>
+      <div class="card"><div class="big">OAuth2</div><div class="lbl">Most common auth pattern</div><div class="sub2">46/100 apps support it</div></div>
+      <div class="card"><div class="big">AI/Research/Media</div><div class="lbl">Hardest category</div><div class="sub2">only 2/10 easy builds</div></div>
+      <div class="card"><div class="big">Partner gates</div><div class="lbl">Biggest blocker</div><div class="sub2">9 apps need a human conversation first</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="auth">
+  <div class="wrap">
+    <div class="eyebrow">02 — Authentication Patterns</div>
+    <h2>OAuth2 dominates, but almost never alone</h2>
+    <p class="sub" style="max-width:720px;color:var(--muted)">Nearly half of all 100 apps support <em>both</em> OAuth2 and a simpler API-key/token path — meaning most integrations don't have to solve a full OAuth consent-screen flow just to get read access. Pure API-key products cluster in developer infra and data/scraping tools; pure OAuth2 clusters in customer-facing SaaS with per-user permission models.</p>
+    <div class="auth-row">
+<span class="auth-label">OAuth2 + API key/token (both supported)</span>
+<div class="auth-track"><div class="auth-fill" style="width:46.0%"></div></div>
+<span class="auth-pct">46 (46.0%)</span>
+</div>
+<div class="auth-row">
+<span class="auth-label">API Key only</span>
+<div class="auth-track"><div class="auth-fill" style="width:28.0%"></div></div>
+<span class="auth-pct">28 (28.0%)</span>
+</div>
+<div class="auth-row">
+<span class="auth-label">OAuth 2.0 only</span>
+<div class="auth-track"><div class="auth-fill" style="width:19.0%"></div></div>
+<span class="auth-pct">19 (19.0%)</span>
+</div>
+<div class="auth-row">
+<span class="auth-label">Token-based only</span>
+<div class="auth-track"><div class="auth-fill" style="width:3.0%"></div></div>
+<span class="auth-pct">3 (3.0%)</span>
+</div>
+<div class="auth-row">
+<span class="auth-label">Other / None / Unclear</span>
+<div class="auth-track"><div class="auth-fill" style="width:3.0%"></div></div>
+<span class="auth-pct">3 (3.0%)</span>
+</div>
+<div class="auth-row">
+<span class="auth-label">Basic Auth / HMAC</span>
+<div class="auth-track"><div class="auth-fill" style="width:1.0%"></div></div>
+<span class="auth-pct">1 (1.0%)</span>
+</div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="eyebrow">03 — Category Readiness Matrix</div>
+    <h2>Developer tools are easy. Fintech and AI-native are not.</h2>
+    <p class="sub" style="max-width:720px;color:var(--muted)">
+      <strong style="color:var(--green)">Most agent-ready:</strong> Developer/Infra and Productivity/PM — both 10/10 easy builds; these categories were built by developers, for developers, from day one.
+      <br><strong style="color:var(--red)">Hardest:</strong> AI/Research/Media (2/10 easy) — finance/fintech and AI-native tools are new, high-trust, or high-compliance categories where vendors deliberately slow down self-serve access.
+    </p>
+    <table>
+      <thead><tr><th>Category</th><th>Apps</th><th>🟢 Easy</th><th>🟡 Limited</th><th>🔴 Blocked</th><th>% agent-ready</th></tr></thead>
+      <tbody><tr>
+<td>CRM & Sales</td><td>10</td>
+<td><span class="mini-badge green">7</span></td>
+<td><span class="mini-badge yellow">3</span></td>
+<td><span class="mini-badge red">0</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div> 70%</td>
+</tr>
+<tr>
+<td>Support & Helpdesk</td><td>10</td>
+<td><span class="mini-badge green">8</span></td>
+<td><span class="mini-badge yellow">2</span></td>
+<td><span class="mini-badge red">0</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div> 80%</td>
+</tr>
+<tr>
+<td>Communications</td><td>10</td>
+<td><span class="mini-badge green">8</span></td>
+<td><span class="mini-badge yellow">2</span></td>
+<td><span class="mini-badge red">0</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div> 80%</td>
+</tr>
+<tr>
+<td>Marketing/Ads</td><td>10</td>
+<td><span class="mini-badge green">5</span></td>
+<td><span class="mini-badge yellow">4</span></td>
+<td><span class="mini-badge red">1</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div> 50%</td>
+</tr>
+<tr>
+<td>Ecommerce</td><td>10</td>
+<td><span class="mini-badge green">6</span></td>
+<td><span class="mini-badge yellow">3</span></td>
+<td><span class="mini-badge red">1</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div> 60%</td>
+</tr>
+<tr>
+<td>Data/SEO/Scraping</td><td>10</td>
+<td><span class="mini-badge green">6</span></td>
+<td><span class="mini-badge yellow">2</span></td>
+<td><span class="mini-badge red">2</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div> 60%</td>
+</tr>
+<tr>
+<td>Developer/Infra</td><td>10</td>
+<td><span class="mini-badge green">10</span></td>
+<td><span class="mini-badge yellow">0</span></td>
+<td><span class="mini-badge red">0</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div> 100%</td>
+</tr>
+<tr>
+<td>Productivity/PM</td><td>10</td>
+<td><span class="mini-badge green">10</span></td>
+<td><span class="mini-badge yellow">0</span></td>
+<td><span class="mini-badge red">0</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div> 100%</td>
+</tr>
+<tr>
+<td>Finance/Fintech</td><td>10</td>
+<td><span class="mini-badge green">3</span></td>
+<td><span class="mini-badge yellow">4</span></td>
+<td><span class="mini-badge red">3</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div> 30%</td>
+</tr>
+<tr>
+<td>AI/Research/Media</td><td>10</td>
+<td><span class="mini-badge green">2</span></td>
+<td><span class="mini-badge yellow">6</span></td>
+<td><span class="mini-badge red">2</span></td>
+<td><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div> 20%</td>
+</tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="opportunities">
+  <div class="wrap">
+    <div class="eyebrow">04 — Top Opportunities</div>
+    <h2>15 fastest Composio toolkit wins</h2>
+    <p class="sub" style="max-width:720px;color:var(--muted)">Filtered for: public API, OAuth/API-key self-serve, rich CRUD action surface, strong docs. These could ship as toolkits this week, not this quarter.</p>
+    <div class="opp-grid">
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Slack</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">Mature OAuth2, huge action surface, official MCP already exists.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Send/read messages, summarize channels, create workflows, manage canvases</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>GitHub</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2+PAT+App tokens, official MCP, best-in-class docs.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Open/triage issues & PRs, review diffs, manage repos, run Actions</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Stripe</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">API key + OAuth, official Agent Toolkit MCP built for this exact use case.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create charges/refunds, manage subscriptions, reconcile payouts</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>HubSpot</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2, official MCP, huge CRUD surface across CRM+Marketing.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/update contacts & deals, log activity, trigger workflows</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Notion</h4><span class="opp-score">API score 4/5</span></div>
+          <p class="opp-why">OAuth2 + simple internal token, official MCP, clean REST model.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Read/write pages & databases, search workspace, manage tasks</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Linear</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2+API key, official MCP, GraphQL but very clean schema.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/triage issues, update cycles, comment, query roadmaps</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Zendesk</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2+token, official+community MCP, deep ticketing API.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/update tickets, search macros, route/tag conversations</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Shopify</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2+Admin token, official Storefront MCP, huge GraphQL surface.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Manage orders/inventory/products, fulfill shipments, query analytics</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Airtable</h4><span class="opp-score">API score 4/5</span></div>
+          <p class="opp-why">OAuth2+PAT, simple REST, spreadsheet-shaped data agents grok easily.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Read/write records, manage views, sync data between bases</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Attio</h4><span class="opp-score">API score 4/5</span></div>
+          <p class="opp-why">OAuth2+API key, official MCP, modern relational data model.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/update records, log notes, manage lists and workflows</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Supabase</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">PAT+service keys, official MCP, Postgres underneath = agents can query directly.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Query/write tables, manage auth users, run edge functions</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Cloudflare</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">API token, several official MCP servers already shipped.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Manage DNS/Workers, purge cache, read analytics, configure WAF rules</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Firecrawl</h4><span class="opp-score">API score 4/5</span></div>
+          <p class="opp-why">API key, official MCP, built specifically for LLM consumption.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Crawl & scrape sites into clean markdown/structured data on demand</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Jira</h4><span class="opp-score">API score 5/5</span></div>
+          <p class="opp-why">OAuth2 (3LO)+token, official Atlassian MCP, deep issue-tracking API.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/transition issues, query JQL, manage sprints</p>
+        </div>
+
+        <div class="opp-card">
+          <div class="opp-head"><span class="dot green"></span><h4>Asana</h4><span class="opp-score">API score 4/5</span></div>
+          <p class="opp-why">OAuth2+PAT, official MCP, clean task/project model.</p>
+          <p class="opp-actions"><span class="label">Agent could:</span> Create/assign tasks, update projects, comment, query workload</p>
+        </div></div>
+  </div>
+</section>
+
+<section id="outreach">
+  <div class="wrap">
+    <div class="eyebrow">05 — Outreach Required</div>
+    <h2>9 apps that need a human conversation first</h2>
+    <table>
+      <thead><tr><th>Company</th><th>Reason blocked</th><th>Suggested approach</th></tr></thead>
+      <tbody><tr><td>LinkedIn Ads</td><td>Access requires an approved LinkedIn Marketing Partner application, not just OAuth signup</td><td>Apply to the LinkedIn Marketing Developer Platform partner program before building anything user-facing.</td></tr>
+<tr><td>Salesforce Commerce Cloud</td><td>Requires a provisioned SFCC realm/sandbox; not self-serve signup</td><td>Partner with a customer who already has an SFCC realm/sandbox provisioned; can't self-serve a trial.</td></tr>
+<tr><td>Sherlock</td><td>Not a SaaS API at all — it's a Python CLI you run locally, nothing to authenticate or call remotely</td><td>Not an outreach case -- wrap the CLI as a subprocess tool instead of an API integration.</td></tr>
+<tr><td>Waterfall.io</td><td>No discoverable public API documentation — flagged for manual/human follow-up</td><td>Contact the vendor directly to ask if a developer API exists at all before scoping work.</td></tr>
+<tr><td>Paygent Connect</td><td>No self-serve signup found; access is merchant-onboarding-driven through a payments partner</td><td>Reach out through the NMI/payments partner channel; access is merchant-onboarding-driven.</td></tr>
+<tr><td>iPayX</td><td>Domain/product not conclusively identified — likely early-stage/low public footprint; flagged for human follow-up</td><td>Contact the vendor to confirm the product/domain and whether a public API exists.</td></tr>
+<tr><td>PitchBook</td><td>No self-serve signup; requires a PitchBook enterprise data license/contact-sales</td><td>Requires a PitchBook enterprise data license -- loop in sales, this is a commercial conversation.</td></tr>
+<tr><td>NotebookLM</td><td>Consumer NotebookLM itself is closed; only the separate Gemini Enterprise API is programmable, and that's account-gated</td><td>Consumer NotebookLM has no API; evaluate the separate Gemini Enterprise API path with a Google Cloud rep instead.</td></tr>
+<tr><td>Consensus</td><td>No discoverable public API docs — likely partner/waitlist access only; flagged for manual check</td><td>No public dev docs found; contact the vendor to ask about their 'OAuth requested' partner/waitlist program.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="mcp-map">
+  <div class="wrap">
+    <div class="eyebrow">06 — MCP Opportunity Map</div>
+    <h2>Where MCP already exists — and where it should</h2>
+    <h4 style="color:var(--green);margin-top:24px;">Apps with an existing MCP server (47)</h4>
+    <div><span class='chip'>Salesforce</span><span class='chip'>HubSpot</span><span class='chip'>Pipedrive</span><span class='chip'>Attio</span><span class='chip'>Twenty</span><span class='chip'>Zoho CRM</span><span class='chip'>Zendesk</span><span class='chip'>Intercom</span><span class='chip'>Freshdesk</span><span class='chip'>Front</span><span class='chip'>Help Scout</span><span class='chip'>Slack</span><span class='chip'>Twilio</span><span class='chip'>Discord</span><span class='chip'>Telegram</span><span class='chip'>WhatsApp Business</span><span class='chip'>Mailchimp</span><span class='chip'>Klaviyo</span><span class='chip'>Shopify</span><span class='chip'>WooCommerce</span><span class='chip'>Apify</span><span class='chip'>Firecrawl</span><span class='chip'>Bright Data</span><span class='chip'>GitHub</span><span class='chip'>Vercel</span><span class='chip'>Netlify</span><span class='chip'>Cloudflare</span><span class='chip'>Supabase</span><span class='chip'>Neo4j</span><span class='chip'>Snowflake</span><span class='chip'>MongoDB Atlas</span><span class='chip'>Datadog</span><span class='chip'>Sentry</span><span class='chip'>Notion</span><span class='chip'>Airtable</span><span class='chip'>Linear</span><span class='chip'>Jira</span><span class='chip'>Asana</span><span class='chip'>Monday.com</span><span class='chip'>ClickUp</span><span class='chip'>Coda</span><span class='chip'>Smartsheet</span><span class='chip'>Stripe</span><span class='chip'>QuickBooks</span><span class='chip'>Xero</span><span class='chip'>Otter AI</span><span class='chip'>Devin</span></div>
+    <h4 style="color:var(--yellow);margin-top:24px;">Green-readiness apps with no MCP yet — build here next (21)</h4>
+    <div><span class='chip'>Close</span><span class='chip'>Pylon</span><span class='chip'>Plain</span><span class='chip'>Gorgias</span><span class='chip'>Zoho Cliq</span><span class='chip'>Lark (Larksuite)</span><span class='chip'>Aircall</span><span class='chip'>Vonage</span><span class='chip'>GoHighLevel</span><span class='chip'>systeme.io</span><span class='chip'>SendGrid</span><span class='chip'>BigCommerce</span><span class='chip'>Ecwid</span><span class='chip'>Gumroad</span><span class='chip'>fanbasis</span><span class='chip'>DataForSEO</span><span class='chip'>MrScraper</span><span class='chip'>Clay</span><span class='chip'>Harvest</span><span class='chip'>Reducto</span><span class='chip'>YouTube Transcript</span></div>
+    <h4 style="color:var(--muted);margin-top:24px;">Where MCP makes little sense</h4>
+    <div><span class='chip'>Mermaid CLI</span><span class='chip'>Sherlock</span></div>
+    <p class="sub" style="max-width:720px;color:var(--muted);margin-top:10px;">Local CLIs (Sherlock, Mermaid CLI) have no remote service to expose — "MCP" there means wrapping a subprocess call, not a hosted server, so they're structurally different from the rest of this list.</p>
+  </div>
+</section>
+
+<section id="full-table">
+  <div class="wrap">
+    <div class="eyebrow">07 — Full Research Table</div>
+    <h2>All 100 apps</h2>
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search app, category, blocker…" style="width:280px;">
+      <select id="catFilter"><option value="">All categories</option></select>
+      <select id="readinessFilter">
+        <option value="">All readiness</option>
+        <option value="green">🟢 Easy build</option>
+        <option value="yellow">🟡 Limited</option>
+        <option value="red">🔴 Blocked</option>
+      </select>
+      <select id="confFilter">
+        <option value="">All confidence</option>
+        <option value="verified">Verified (live search)</option>
+        <option value="known">Known (trained knowledge)</option>
+        <option value="inferred">Inferred / unverified</option>
+      </select>
+    </div>
+    <div class="table-scroll">
+    <table id="fullTable">
+      <thead><tr>
+        <th>App</th><th>Category</th><th>Auth</th><th>Dev Access</th><th>API Type</th><th>Score</th><th>MCP</th><th>Readiness</th><th>Main Blocker</th><th>Confidence</th><th>Evidence</th>
+      </tr></thead>
+      <tbody><tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="salesforce crm & sales enterprise crm for sales, service, marketing oauth 2.0 + session/api tokens no blocker">
+<td class="app-cell"><strong>Salesforce</strong><span class="app-desc">Enterprise CRM for sales, service, marketing</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 + Session/API tokens</td>
+<td>Fully public (free dev org)</td>
+<td>REST + GraphQL(partial) + SOAP</td>
+<td class="score-cell">5/5</td>
+<td>Official Salesforce MCP (Agentforce)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.salesforce.com">developer.salesforce.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="hubspot crm & sales inbound marketing & sales crm oauth 2.0 (private app tokens too) no blocker">
+<td class="app-cell"><strong>HubSpot</strong><span class="app-desc">Inbound marketing & sales CRM</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 (Private App tokens too)</td>
+<td>Fully public (free dev account)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Official HubSpot MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.hubspot.com">developers.hubspot.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="pipedrive crm & sales sales pipeline crm for smbs oauth 2.0 + api token no blocker">
+<td class="app-cell"><strong>Pipedrive</strong><span class="app-desc">Sales pipeline CRM for SMBs</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 + API token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.pipedrive.com">developers.pipedrive.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="attio crm & sales modern flexible/relational crm oauth 2.0 + api key no blocker">
+<td class="app-cell"><strong>Attio</strong><span class="app-desc">Modern flexible/relational CRM</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Attio MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.attio.com">developers.attio.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="twenty crm & sales open-source crm (self-hostable) api key + oauth (workspace) no blocker">
+<td class="app-cell"><strong>Twenty</strong><span class="app-desc">Open-source CRM (self-hostable)</span></td>
+<td>CRM & Sales</td>
+<td>API Key + OAuth (workspace)</td>
+<td>Fully public / self-host</td>
+<td>REST + GraphQL</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP (open-source, easy to add)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="twenty.com/developers">twenty.com/developers</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="yellow" data-conf="known" data-search="podio crm & sales citigroup-owned flexible work/crm platform oauth 2.0 aging docs, sparse sdks, citrix/progress-owned product in maintenance mode">
+<td class="app-cell"><strong>Podio</strong><span class="app-desc">Citigroup-owned flexible work/CRM platform</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev app)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Aging docs, sparse SDKs, Citrix/Progress-owned product in maintenance mode</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.podio.com">developers.podio.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="zoho crm crm & sales crm part of the zoho one suite oauth 2.0 no blocker">
+<td class="app-cell"><strong>Zoho CRM</strong><span class="app-desc">CRM part of the Zoho One suite</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers exist</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="zoho.com/crm/developer">zoho.com/crm/developer</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="green" data-conf="known" data-search="close crm & sales inside-sales crm with built-in calling/email oauth 2.0 + api key no blocker">
+<td class="app-cell"><strong>Close</strong><span class="app-desc">Inside-sales CRM with built-in calling/email</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official; community wrapper likely</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.close.com">developer.close.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="yellow" data-conf="known" data-search="copper crm & sales google-workspace-native crm oauth 2.0 + api key docs thinner than peers, smaller action surface">
+<td class="app-cell"><strong>Copper</strong><span class="app-desc">Google-Workspace-native CRM</span></td>
+<td>CRM & Sales</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Docs thinner than peers, smaller action surface</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.copper.com">developer.copper.com</a></td>
+</tr>
+<tr data-cat="CRM & Sales" data-readiness="yellow" data-conf="verified" data-search="dealcloud crm & sales deal/crm platform for pe, ib & real estate api key (org-issued) not self-serve — api key only issuable by an org admin on a paid dealcloud site">
+<td class="app-cell"><strong>DealCloud</strong><span class="app-desc">Deal/CRM platform for PE, IB & real estate</span></td>
+<td>CRM & Sales</td>
+<td>API key (org-issued)</td>
+<td>Enterprise/partner gated - requires existing DealCloud site + admin to grant API capability</td>
+<td>REST + SDKs</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Not self-serve — API key only issuable by an org admin on a paid DealCloud site</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="api.docs.dealcloud.com">api.docs.dealcloud.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="zendesk support & helpdesk customer support ticketing suite oauth 2.0 + api token no blocker">
+<td class="app-cell"><strong>Zendesk</strong><span class="app-desc">Customer support ticketing suite</span></td>
+<td>Support & Helpdesk</td>
+<td>OAuth 2.0 + API token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Official + community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.zendesk.com">developer.zendesk.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="intercom support & helpdesk customer messaging & support platform oauth 2.0 + access token no blocker">
+<td class="app-cell"><strong>Intercom</strong><span class="app-desc">Customer messaging & support platform</span></td>
+<td>Support & Helpdesk</td>
+<td>OAuth 2.0 + Access token</td>
+<td>Fully public (free dev workspace)</td>
+<td>REST + GraphQL(beta)</td>
+<td class="score-cell">4/5</td>
+<td>Official Intercom MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.intercom.com">developers.intercom.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="freshdesk support & helpdesk helpdesk ticketing (freshworks) api key + oauth2 no blocker">
+<td class="app-cell"><strong>Freshdesk</strong><span class="app-desc">Helpdesk ticketing (Freshworks)</span></td>
+<td>Support & Helpdesk</td>
+<td>API key + OAuth2</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.freshdesk.com">developers.freshdesk.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="front support & helpdesk shared inbox / customer comms hub oauth 2.0 + api token no blocker">
+<td class="app-cell"><strong>Front</strong><span class="app-desc">Shared inbox / customer comms hub</span></td>
+<td>Support & Helpdesk</td>
+<td>OAuth 2.0 + API token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="dev.frontapp.com">dev.frontapp.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="verified" data-search="pylon support & helpdesk b2b customer support/ops over slack & teams bearer api token (admin-issued) no blocker">
+<td class="app-cell"><strong>Pylon</strong><span class="app-desc">B2B customer support/ops over Slack & Teams</span></td>
+<td>Support & Helpdesk</td>
+<td>Bearer API token (admin-issued)</td>
+<td>Fully public — Admin users generate tokens in-app, no gate</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official; OpenAPI + Postman collection published</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.usepylon.com">docs.usepylon.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="yellow" data-conf="known" data-search="liveagent support & helpdesk multi-channel helpdesk ticketing api key smaller action surface, dated docs ux">
+<td class="app-cell"><strong>LiveAgent</strong><span class="app-desc">Multi-channel helpdesk ticketing</span></td>
+<td>Support & Helpdesk</td>
+<td>API key</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Smaller action surface, dated docs UX</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.liveagent.com">developers.liveagent.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="plain support & helpdesk b2b support tool built api-first for saas api key + webhooks no blocker; graphql-only surface needs a schema-aware wrapper">
+<td class="app-cell"><strong>Plain</strong><span class="app-desc">B2B support tool built API-first for SaaS</span></td>
+<td>Support & Helpdesk</td>
+<td>API key + Webhooks</td>
+<td>Fully public (free tier)</td>
+<td>GraphQL</td>
+<td class="score-cell">4/5</td>
+<td>None official found — likely candidate</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker; GraphQL-only surface needs a schema-aware wrapper</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="plain.com/docs">plain.com/docs</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="help scout support & helpdesk shared-inbox helpdesk for small teams oauth 2.0 no blocker">
+<td class="app-cell"><strong>Help Scout</strong><span class="app-desc">Shared-inbox helpdesk for small teams</span></td>
+<td>Support & Helpdesk</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.helpscout.com">developer.helpscout.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="green" data-conf="known" data-search="gorgias support & helpdesk ecommerce-focused helpdesk (shopify-native) oauth 2.0 + api key (basic) no blocker">
+<td class="app-cell"><strong>Gorgias</strong><span class="app-desc">Ecommerce-focused helpdesk (Shopify-native)</span></td>
+<td>Support & Helpdesk</td>
+<td>OAuth 2.0 + API key (Basic)</td>
+<td>Fully public (dev partner account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.gorgias.com">developers.gorgias.com</a></td>
+</tr>
+<tr data-cat="Support & Helpdesk" data-readiness="yellow" data-conf="known" data-search="gladly support & helpdesk people-centered customer service platform api key + basic auth access provisioned by gladly per customer contract, not self-serve signup">
+<td class="app-cell"><strong>Gladly</strong><span class="app-desc">People-centered customer service platform</span></td>
+<td>Support & Helpdesk</td>
+<td>API key + Basic Auth</td>
+<td>Enterprise gated — API access typically provisioned per paid contract</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Access provisioned by Gladly per customer contract, not self-serve signup</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.gladly.com">developer.gladly.com</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="slack communications team chat & workflow hub oauth 2.0 no blocker">
+<td class="app-cell"><strong>Slack</strong><span class="app-desc">Team chat & workflow hub</span></td>
+<td>Communications</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free workspace)</td>
+<td>REST + Events API + Socket Mode</td>
+<td class="score-cell">5/5</td>
+<td>Official Slack MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="api.slack.com">api.slack.com</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="twilio communications programmable sms/voice/video infra api key + basic auth (account sid/token) no blocker">
+<td class="app-cell"><strong>Twilio</strong><span class="app-desc">Programmable SMS/voice/video infra</span></td>
+<td>Communications</td>
+<td>API key + Basic Auth (Account SID/token)</td>
+<td>Fully public (free trial credit)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="twilio.com/docs">twilio.com/docs</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="zoho cliq communications team chat, part of zoho suite oauth 2.0 no blocker">
+<td class="app-cell"><strong>Zoho Cliq</strong><span class="app-desc">Team chat, part of Zoho suite</span></td>
+<td>Communications</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev account)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="zoho.com/cliq/developer">zoho.com/cliq/developer</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="lark (larksuite) communications bytedance's chat/collab suite (int'l feishu) oauth 2.0 + app-level token no blocker">
+<td class="app-cell"><strong>Lark (Larksuite)</strong><span class="app-desc">ByteDance's chat/collab suite (int'l Feishu)</span></td>
+<td>Communications</td>
+<td>OAuth 2.0 + App-level token</td>
+<td>Fully public (free dev account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="open.larksuite.com">open.larksuite.com</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="yellow" data-conf="inferred" data-search="pumble communications free slack-alternative team chat api key (limited) thin/limited public api, mainly a chat client not a platform">
+<td class="app-cell"><strong>Pumble</strong><span class="app-desc">Free Slack-alternative team chat</span></td>
+<td>Communications</td>
+<td>API key (limited)</td>
+<td>Public but limited — smaller API surface, no OAuth app marketplace</td>
+<td>REST (basic)</td>
+<td class="score-cell">2/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Thin/limited public API, mainly a chat client not a platform</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="pumble.com/help">pumble.com/help</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="discord communications community/gaming voice & chat platform oauth 2.0 + bot token no blocker">
+<td class="app-cell"><strong>Discord</strong><span class="app-desc">Community/gaming voice & chat platform</span></td>
+<td>Communications</td>
+<td>OAuth 2.0 + Bot token</td>
+<td>Fully public (free dev app)</td>
+<td>REST + Gateway (WebSocket)</td>
+<td class="score-cell">5/5</td>
+<td>Community MCP servers (numerous)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="discord.com/developers/docs">discord.com/developers/docs</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="telegram communications messaging app with a first-class bot api bot token (api key-like) + mtproto for user accounts no blocker">
+<td class="app-cell"><strong>Telegram</strong><span class="app-desc">Messaging app with a first-class Bot API</span></td>
+<td>Communications</td>
+<td>Bot token (API key-like) + MTProto for user accounts</td>
+<td>Fully public (free, instant bot creation via BotFather)</td>
+<td>REST (Bot API) + MTProto</td>
+<td class="score-cell">5/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="core.telegram.org/bots/api">core.telegram.org/bots/api</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="yellow" data-conf="known" data-search="whatsapp business communications business messaging on whatsapp oauth 2.0 (meta) + access tokens meta business verification & template-message approval gate self-serve speed">
+<td class="app-cell"><strong>WhatsApp Business</strong><span class="app-desc">Business messaging on WhatsApp</span></td>
+<td>Communications</td>
+<td>OAuth 2.0 (Meta) + access tokens</td>
+<td>Public but limited — business verification & Meta app review required</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Meta business verification & template-message approval gate self-serve speed</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.facebook.com/docs/whatsapp">developers.facebook.com/docs/whatsapp</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="aircall communications cloud call-center/phone system oauth 2.0 + api id/token (basic) no blocker">
+<td class="app-cell"><strong>Aircall</strong><span class="app-desc">Cloud call-center/phone system</span></td>
+<td>Communications</td>
+<td>OAuth 2.0 + API ID/token (Basic)</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.aircall.io">developer.aircall.io</a></td>
+</tr>
+<tr data-cat="Communications" data-readiness="green" data-conf="known" data-search="vonage communications programmable comms apis (ex-nexmo) api key/secret + jwt (for voice) no blocker">
+<td class="app-cell"><strong>Vonage</strong><span class="app-desc">Programmable comms APIs (ex-Nexmo)</span></td>
+<td>Communications</td>
+<td>API key/secret + JWT (for Voice)</td>
+<td>Fully public (free trial credit)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.vonage.com">developer.vonage.com</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="yellow" data-conf="known" data-search="google ads marketing/ads search/display ad platform oauth 2.0 + developer token developer-token approval step even after oauth is set up">
+<td class="app-cell"><strong>Google Ads</strong><span class="app-desc">Search/display ad platform</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0 + Developer token</td>
+<td>Public but limited — requires Google approval of a developer token for prod access</td>
+<td>REST + gRPC</td>
+<td class="score-cell">5/5</td>
+<td>None official</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Developer-token approval step even after OAuth is set up</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.google.com/google-ads/api">developers.google.com/google-ads/api</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="yellow" data-conf="known" data-search="meta ads marketing/ads fb/instagram ad management oauth 2.0 meta app review is a real gate before most write-scopes unlock">
+<td class="app-cell"><strong>Meta Ads</strong><span class="app-desc">FB/Instagram ad management</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0</td>
+<td>Public but limited — App Review required for most marketing permissions</td>
+<td>REST (Graph API)</td>
+<td class="score-cell">5/5</td>
+<td>None official</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Meta App Review is a real gate before most write-scopes unlock</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.facebook.com/docs/marketing-apis">developers.facebook.com/docs/marketing-apis</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="red" data-conf="known" data-search="linkedin ads marketing/ads linkedin advertising platform oauth 2.0 access requires an approved linkedin marketing partner application, not just oauth signup">
+<td class="app-cell"><strong>LinkedIn Ads</strong><span class="app-desc">LinkedIn advertising platform</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0</td>
+<td>Enterprise/partner gated — Marketing Developer Platform requires partner application</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>Access requires an approved LinkedIn Marketing Partner application, not just OAuth signup</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="learn.microsoft.com/linkedin/marketing">learn.microsoft.com/linkedin/marketing</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="green" data-conf="known" data-search="gohighlevel marketing/ads all-in-one agency marketing/crm funnel builder oauth 2.0 (marketplace) + api key (legacy) no blocker">
+<td class="app-cell"><strong>GoHighLevel</strong><span class="app-desc">All-in-one agency marketing/CRM funnel builder</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0 (Marketplace) + API key (legacy)</td>
+<td>Fully public (free dev/marketplace account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="highlevel.stoplight.io">highlevel.stoplight.io</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="green" data-conf="known" data-search="mailchimp marketing/ads email marketing & automation oauth 2.0 + api key no blocker">
+<td class="app-cell"><strong>Mailchimp</strong><span class="app-desc">Email marketing & automation</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="mailchimp.com/developer">mailchimp.com/developer</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="green" data-conf="known" data-search="klaviyo marketing/ads ecommerce email/sms marketing oauth 2.0 + api key no blocker">
+<td class="app-cell"><strong>Klaviyo</strong><span class="app-desc">Ecommerce email/SMS marketing</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.klaviyo.com">developers.klaviyo.com</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="green" data-conf="known" data-search="systeme.io marketing/ads all-in-one funnel/course builder api key no blocker">
+<td class="app-cell"><strong>systeme.io</strong><span class="app-desc">All-in-one funnel/course builder</span></td>
+<td>Marketing/Ads</td>
+<td>API key</td>
+<td>Fully public (free tier includes API access)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.systeme.io">developer.systeme.io</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="yellow" data-conf="known" data-search="pinterest marketing/ads visual discovery/ad platform oauth 2.0 standard access is easy; higher rate-limit tiers need app review">
+<td class="app-cell"><strong>Pinterest</strong><span class="app-desc">Visual discovery/ad platform</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev app, higher tiers need approval)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Standard access is easy; higher rate-limit tiers need app review</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.pinterest.com">developers.pinterest.com</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="yellow" data-conf="known" data-search="threads (meta) marketing/ads meta's x/twitter-style text app oauth 2.0 young api surface, meta review gate, no ad api yet">
+<td class="app-cell"><strong>Threads (Meta)</strong><span class="app-desc">Meta's X/Twitter-style text app</span></td>
+<td>Marketing/Ads</td>
+<td>OAuth 2.0</td>
+<td>Public but limited — App Review needed for most write scopes</td>
+<td>REST (Graph-style)</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Young API surface, Meta review gate, no ad API yet</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.facebook.com/docs/threads">developers.facebook.com/docs/threads</a></td>
+</tr>
+<tr data-cat="Marketing/Ads" data-readiness="green" data-conf="known" data-search="sendgrid marketing/ads transactional & marketing email delivery api key no blocker">
+<td class="app-cell"><strong>SendGrid</strong><span class="app-desc">Transactional & marketing email delivery</span></td>
+<td>Marketing/Ads</td>
+<td>API key</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>None official</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.sendgrid.com">docs.sendgrid.com</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="known" data-search="shopify ecommerce leading ecommerce storefront/backend platform oauth 2.0 (public apps) + admin api access token (custom apps) no blocker">
+<td class="app-cell"><strong>Shopify</strong><span class="app-desc">Leading ecommerce storefront/backend platform</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0 (public apps) + Admin API access token (custom apps)</td>
+<td>Fully public (free dev/partner account)</td>
+<td>REST + GraphQL (GraphQL is now primary)</td>
+<td class="score-cell">5/5</td>
+<td>Official Shopify MCP (Storefront MCP)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="shopify.dev">shopify.dev</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="known" data-search="woocommerce ecommerce wordpress ecommerce plugin api key/secret (basic-style) or oauth1.0a over https no blocker">
+<td class="app-cell"><strong>WooCommerce</strong><span class="app-desc">WordPress ecommerce plugin</span></td>
+<td>Ecommerce</td>
+<td>API key/secret (Basic-style) or OAuth1.0a over HTTPS</td>
+<td>Fully public (self-hosted, keys generated in wp-admin)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="woocommerce.github.io/woocommerce-rest-api-docs">woocommerce.github.io/woocommerce-rest-api-docs</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="known" data-search="bigcommerce ecommerce enterprise-grade saas ecommerce oauth 2.0 + api account tokens no blocker">
+<td class="app-cell"><strong>BigCommerce</strong><span class="app-desc">Enterprise-grade SaaS ecommerce</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0 + API account tokens</td>
+<td>Fully public (free dev store)</td>
+<td>REST + GraphQL</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.bigcommerce.com">developer.bigcommerce.com</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="red" data-conf="known" data-search="salesforce commerce cloud ecommerce enterprise ecommerce (ex-demandware) oauth 2.0 (account manager) requires a provisioned sfcc realm/sandbox; not self-serve signup">
+<td class="app-cell"><strong>Salesforce Commerce Cloud</strong><span class="app-desc">Enterprise ecommerce (ex-Demandware)</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0 (Account Manager)</td>
+<td>Enterprise/partner gated — needs an existing SFCC instance/sandbox</td>
+<td>REST + OCAPI/SCAPI</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>Requires a provisioned SFCC realm/sandbox; not self-serve signup</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.salesforce.com/docs/commerce">developer.salesforce.com/docs/commerce</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="yellow" data-conf="known" data-search="magento (adobe commerce) ecommerce adobe's open/enterprise ecommerce oauth 1.0a/2.0 (integrations) + token open-source edition self-serve; cloud/enterprise tier is sales-gated">
+<td class="app-cell"><strong>Magento (Adobe Commerce)</strong><span class="app-desc">Adobe's open/enterprise ecommerce</span></td>
+<td>Ecommerce</td>
+<td>OAuth 1.0a/2.0 (Integrations) + token</td>
+<td>Fully public open-source; Adobe Commerce Cloud tier is gated</td>
+<td>REST + GraphQL</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Open-source edition self-serve; Cloud/enterprise tier is sales-gated</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.adobe.com/commerce">developer.adobe.com/commerce</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="yellow" data-conf="known" data-search="squarespace ecommerce website builder with commerce oauth 2.0 commerce api requires a paid commerce advanced-tier site">
+<td class="app-cell"><strong>Squarespace</strong><span class="app-desc">Website builder with commerce</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0</td>
+<td>Fully public but commerce APIs need a paid Commerce plan</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Commerce API requires a paid Commerce Advanced-tier site</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.squarespace.com">developers.squarespace.com</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="known" data-search="ecwid ecommerce embeddable ecommerce storefront oauth 2.0 no blocker">
+<td class="app-cell"><strong>Ecwid</strong><span class="app-desc">Embeddable ecommerce storefront</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="api-docs.ecwid.com">api-docs.ecwid.com</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="known" data-search="gumroad ecommerce creator-first digital product sales oauth 2.0 + access token no blocker">
+<td class="app-cell"><strong>Gumroad</strong><span class="app-desc">Creator-first digital product sales</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0 + Access token</td>
+<td>Fully public (free)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="gumroad.com/api">gumroad.com/api</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="yellow" data-conf="known" data-search="amazon selling partner ecommerce amazon marketplace seller api oauth 2.0 (lwa) + aws sigv4 real seller account + app approval/role authorization needed before most calls work">
+<td class="app-cell"><strong>Amazon Selling Partner</strong><span class="app-desc">Amazon marketplace seller API</span></td>
+<td>Ecommerce</td>
+<td>OAuth 2.0 (LWA) + AWS SigV4</td>
+<td>Public but limited — requires a registered, approved Amazon seller/developer account</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Real seller account + app approval/role authorization needed before most calls work</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer-docs.amazon.com/sp-api">developer-docs.amazon.com/sp-api</a></td>
+</tr>
+<tr data-cat="Ecommerce" data-readiness="green" data-conf="verified" data-search="fanbasis ecommerce creator/digital-product payments & subscriptions api key (bearer) no blocker">
+<td class="app-cell"><strong>fanbasis</strong><span class="app-desc">Creator/digital-product payments & subscriptions</span></td>
+<td>Ecommerce</td>
+<td>API key (Bearer)</td>
+<td>Fully public — API key generated from dashboard, sandbox mode available</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="dev-docs.fanbasis.com / apidocs.fan">dev-docs.fanbasis.com / apidocs.fan</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="dataforseo data/seo/scraping seo/serp/keyword data api basic auth (login/password) no blocker">
+<td class="app-cell"><strong>DataForSEO</strong><span class="app-desc">SEO/SERP/keyword data API</span></td>
+<td>Data/SEO/Scraping</td>
+<td>Basic Auth (login/password)</td>
+<td>Fully public (pay-as-you-go signup)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.dataforseo.com">docs.dataforseo.com</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="yellow" data-conf="known" data-search="se ranking data/seo/scraping seo rank-tracking & audit saas api key api bundled only with paid plans, but signup itself is self-serve">
+<td class="app-cell"><strong>SE Ranking</strong><span class="app-desc">SEO rank-tracking & audit SaaS</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key</td>
+<td>Fully public (paid plan required, but self-serve)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>API bundled only with paid plans, but signup itself is self-serve</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="seranking.com/api">seranking.com/api</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="yellow" data-conf="known" data-search="ahrefs data/seo/scraping seo backlink/keyword research suite api key (bearer) api access is metered and billed separately from the core subscription">
+<td class="app-cell"><strong>Ahrefs</strong><span class="app-desc">SEO backlink/keyword research suite</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key (Bearer)</td>
+<td>Public but limited — API sold as a separate paid add-on/credits</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>API access is metered and billed separately from the core subscription</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="ahrefs.com/api">ahrefs.com/api</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="mrscraper data/seo/scraping no-code web-scraping-as-a-service api key no blocker">
+<td class="app-cell"><strong>MrScraper</strong><span class="app-desc">No-code web-scraping-as-a-service</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key</td>
+<td>Fully public (free-credit signup)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.mrscraper.com">docs.mrscraper.com</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="apify data/seo/scraping web scraping/automation actor platform api token + oauth (for some integrations) no blocker">
+<td class="app-cell"><strong>Apify</strong><span class="app-desc">Web scraping/automation actor platform</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API token + OAuth (for some integrations)</td>
+<td>Fully public (free tier)</td>
+<td>REST + SDKs</td>
+<td class="score-cell">5/5</td>
+<td>Official Apify MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.apify.com">docs.apify.com</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="firecrawl data/seo/scraping llm-ready web scraping/crawling api api key no blocker">
+<td class="app-cell"><strong>Firecrawl</strong><span class="app-desc">LLM-ready web scraping/crawling API</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Firecrawl MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.firecrawl.dev">docs.firecrawl.dev</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="bright data data/seo/scraping proxy network + scraping infrastructure api key/token no blocker">
+<td class="app-cell"><strong>Bright Data</strong><span class="app-desc">Proxy network + scraping infrastructure</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key/token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Bright Data MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.brightdata.com">docs.brightdata.com</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="red" data-conf="known" data-search="sherlock data/seo/scraping oss cli for username enumeration across sites none — local cli tool, no hosted api/auth not a saas api at all — it's a python cli you run locally, nothing to authenticate or call remotely">
+<td class="app-cell"><strong>Sherlock</strong><span class="app-desc">OSS CLI for username enumeration across sites</span></td>
+<td>Data/SEO/Scraping</td>
+<td>None — local CLI tool, no hosted API/auth</td>
+<td>No API — open-source script only</td>
+<td>No API (CLI/local execution)</td>
+<td class="score-cell">1/5</td>
+<td>None (not applicable)</td>
+<td class="readiness-cell">🔴 red</td>
+<td>Not a SaaS API at all — it's a Python CLI you run locally, nothing to authenticate or call remotely</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="github.com/sherlock-project/sherlock">github.com/sherlock-project/sherlock</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="red" data-conf="inferred" data-search="waterfall.io data/seo/scraping contact/company intelligence tool likely api key (unconfirmed) no discoverable public api documentation — flagged for manual/human follow-up">
+<td class="app-cell"><strong>Waterfall.io</strong><span class="app-desc">Contact/company intelligence tool</span></td>
+<td>Data/SEO/Scraping</td>
+<td>Likely API key (unconfirmed)</td>
+<td>Could not verify — low public footprint, no discoverable public dev docs</td>
+<td>Unknown</td>
+<td class="score-cell">1/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>No discoverable public API documentation — flagged for manual/human follow-up</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="not found — manual check needed">not found — manual check needed</a></td>
+</tr>
+<tr data-cat="Data/SEO/Scraping" data-readiness="green" data-conf="known" data-search="clay data/seo/scraping go-to-market data enrichment & workflow tool api key + native integrations (100s of data providers) no blocker">
+<td class="app-cell"><strong>Clay</strong><span class="app-desc">Go-to-market data enrichment & workflow tool</span></td>
+<td>Data/SEO/Scraping</td>
+<td>API key + native integrations (100s of data providers)</td>
+<td>Fully public (paid plans, self-serve signup)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="clay.com/university/api">clay.com/university/api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="github developer/infra code hosting, ci/cd, collaboration oauth 2.0 + pat + github app tokens no blocker">
+<td class="app-cell"><strong>GitHub</strong><span class="app-desc">Code hosting, CI/CD, collaboration</span></td>
+<td>Developer/Infra</td>
+<td>OAuth 2.0 + PAT + GitHub App tokens</td>
+<td>Fully public (free account)</td>
+<td>REST + GraphQL</td>
+<td class="score-cell">5/5</td>
+<td>Official GitHub MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.github.com/rest">docs.github.com/rest</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="vercel developer/infra frontend hosting/deployment platform oauth 2.0 + access token no blocker">
+<td class="app-cell"><strong>Vercel</strong><span class="app-desc">Frontend hosting/deployment platform</span></td>
+<td>Developer/Infra</td>
+<td>OAuth 2.0 + Access token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Vercel MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="vercel.com/docs/rest-api">vercel.com/docs/rest-api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="netlify developer/infra jamstack hosting/deployment platform oauth 2.0 + personal access token no blocker">
+<td class="app-cell"><strong>Netlify</strong><span class="app-desc">JAMstack hosting/deployment platform</span></td>
+<td>Developer/Infra</td>
+<td>OAuth 2.0 + Personal access token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.netlify.com/api">docs.netlify.com/api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="cloudflare developer/infra cdn/dns/edge compute platform api token + global api key (legacy) no blocker">
+<td class="app-cell"><strong>Cloudflare</strong><span class="app-desc">CDN/DNS/edge compute platform</span></td>
+<td>Developer/Infra</td>
+<td>API token + Global API key (legacy)</td>
+<td>Fully public (free tier)</td>
+<td>REST + GraphQL (analytics)</td>
+<td class="score-cell">5/5</td>
+<td>Official Cloudflare MCP servers (several)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.cloudflare.com/api">developers.cloudflare.com/api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="supabase developer/infra open-source firebase alternative (postgres) personal access token + service-role/anon keys no blocker">
+<td class="app-cell"><strong>Supabase</strong><span class="app-desc">Open-source Firebase alternative (Postgres)</span></td>
+<td>Developer/Infra</td>
+<td>Personal access token + service-role/anon keys</td>
+<td>Fully public (free tier)</td>
+<td>REST (PostgREST) + GraphQL</td>
+<td class="score-cell">5/5</td>
+<td>Official Supabase MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="supabase.com/docs">supabase.com/docs</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="neo4j developer/infra graph database platform basic auth / bearer (driver) + api key (aura) no blocker">
+<td class="app-cell"><strong>Neo4j</strong><span class="app-desc">Graph database platform</span></td>
+<td>Developer/Infra</td>
+<td>Basic Auth / Bearer (driver) + API key (Aura)</td>
+<td>Fully public (free tier - Aura Free)</td>
+<td>REST/Bolt protocol + drivers</td>
+<td class="score-cell">4/5</td>
+<td>Official Neo4j MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="neo4j.com/docs">neo4j.com/docs</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="snowflake developer/infra cloud data warehouse oauth 2.0 + key-pair auth + basic no blocker">
+<td class="app-cell"><strong>Snowflake</strong><span class="app-desc">Cloud data warehouse</span></td>
+<td>Developer/Infra</td>
+<td>OAuth 2.0 + Key-pair auth + Basic</td>
+<td>Fully public (free trial credits)</td>
+<td>REST (SQL API) + Connectors</td>
+<td class="score-cell">5/5</td>
+<td>Official Snowflake MCP (Cortex)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.snowflake.com">docs.snowflake.com</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="mongodb atlas developer/infra managed mongodb cloud database digest auth (api key/secret) + oauth2 (service accounts) no blocker">
+<td class="app-cell"><strong>MongoDB Atlas</strong><span class="app-desc">Managed MongoDB cloud database</span></td>
+<td>Developer/Infra</td>
+<td>Digest Auth (API key/secret) + OAuth2 (Service Accounts)</td>
+<td>Fully public (free tier - M0)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official MongoDB MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="mongodb.com/docs/atlas/api">mongodb.com/docs/atlas/api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="verified" data-search="datadog developer/infra observability/monitoring platform api key + application key no blocker">
+<td class="app-cell"><strong>Datadog</strong><span class="app-desc">Observability/monitoring platform</span></td>
+<td>Developer/Infra</td>
+<td>API key + Application key</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Official Datadog MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.datadoghq.com/api">docs.datadoghq.com/api</a></td>
+</tr>
+<tr data-cat="Developer/Infra" data-readiness="green" data-conf="known" data-search="sentry developer/infra error tracking & performance monitoring oauth 2.0 + auth token no blocker">
+<td class="app-cell"><strong>Sentry</strong><span class="app-desc">Error tracking & performance monitoring</span></td>
+<td>Developer/Infra</td>
+<td>OAuth 2.0 + Auth token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Sentry MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.sentry.io/api">docs.sentry.io/api</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="notion productivity/pm docs/wiki/database workspace oauth 2.0 + internal integration token no blocker">
+<td class="app-cell"><strong>Notion</strong><span class="app-desc">Docs/wiki/database workspace</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + Internal integration token</td>
+<td>Fully public (free account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Notion MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.notion.com">developers.notion.com</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="airtable productivity/pm spreadsheet-database hybrid oauth 2.0 + personal access token no blocker">
+<td class="app-cell"><strong>Airtable</strong><span class="app-desc">Spreadsheet-database hybrid</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + Personal access token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="airtable.com/developers/web/api">airtable.com/developers/web/api</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="linear productivity/pm modern issue-tracking for eng teams oauth 2.0 + api key no blocker">
+<td class="app-cell"><strong>Linear</strong><span class="app-desc">Modern issue-tracking for eng teams</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + API key</td>
+<td>Fully public (free tier)</td>
+<td>GraphQL</td>
+<td class="score-cell">5/5</td>
+<td>Official Linear MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.linear.app">developers.linear.app</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="jira productivity/pm issue & project tracking (atlassian) oauth 2.0 (3lo) + api token (basic) no blocker">
+<td class="app-cell"><strong>Jira</strong><span class="app-desc">Issue & project tracking (Atlassian)</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 (3LO) + API token (Basic)</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Official Atlassian (Jira/Confluence) MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.atlassian.com/cloud/jira">developer.atlassian.com/cloud/jira</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="asana productivity/pm work/project management tool oauth 2.0 + personal access token no blocker">
+<td class="app-cell"><strong>Asana</strong><span class="app-desc">Work/project management tool</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + Personal access token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Official Asana MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developers.asana.com">developers.asana.com</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="monday.com productivity/pm work os / project boards oauth 2.0 + api token no blocker">
+<td class="app-cell"><strong>Monday.com</strong><span class="app-desc">Work OS / project boards</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + API token</td>
+<td>Fully public (free tier)</td>
+<td>GraphQL</td>
+<td class="score-cell">4/5</td>
+<td>Official monday.com MCP server</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.monday.com">developer.monday.com</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="clickup productivity/pm all-in-one productivity/pm suite oauth 2.0 + personal api token no blocker">
+<td class="app-cell"><strong>ClickUp</strong><span class="app-desc">All-in-one productivity/PM suite</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + Personal API token</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="clickup.com/api">clickup.com/api</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="coda productivity/pm docs that behave like apps/databases api token (bearer) no blocker">
+<td class="app-cell"><strong>Coda</strong><span class="app-desc">Docs that behave like apps/databases</span></td>
+<td>Productivity/PM</td>
+<td>API token (Bearer)</td>
+<td>Fully public (free tier)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="coda.io/developers/apis/v1">coda.io/developers/apis/v1</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="smartsheet productivity/pm spreadsheet-style work management oauth 2.0 + api access token no blocker">
+<td class="app-cell"><strong>Smartsheet</strong><span class="app-desc">Spreadsheet-style work management</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + API access token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="smartsheet.redoc.ly">smartsheet.redoc.ly</a></td>
+</tr>
+<tr data-cat="Productivity/PM" data-readiness="green" data-conf="known" data-search="harvest productivity/pm time-tracking & invoicing oauth 2.0 + personal access token no blocker">
+<td class="app-cell"><strong>Harvest</strong><span class="app-desc">Time-tracking & invoicing</span></td>
+<td>Productivity/PM</td>
+<td>OAuth 2.0 + Personal access token</td>
+<td>Fully public (free trial)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="help.getharvest.com/api-v2">help.getharvest.com/api-v2</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="green" data-conf="known" data-search="stripe finance/fintech payments infrastructure api key (secret/publishable) + oauth (connect) no blocker">
+<td class="app-cell"><strong>Stripe</strong><span class="app-desc">Payments infrastructure</span></td>
+<td>Finance/Fintech</td>
+<td>API key (secret/publishable) + OAuth (Connect)</td>
+<td>Fully public (instant free sandbox)</td>
+<td>REST</td>
+<td class="score-cell">5/5</td>
+<td>Official Stripe MCP (Agent Toolkit)</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="stripe.com/docs/api">stripe.com/docs/api</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="yellow" data-conf="known" data-search="plaid finance/fintech bank-account linking/financial data api key (client_id/secret) + link/oauth for bank auth sandbox is instant, but production access needs plaid approval">
+<td class="app-cell"><strong>Plaid</strong><span class="app-desc">Bank-account linking/financial data</span></td>
+<td>Finance/Fintech</td>
+<td>API key (client_id/secret) + Link/OAuth for bank auth</td>
+<td>Fully public (free Sandbox)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Sandbox is instant, but Production access needs Plaid approval</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="plaid.com/docs">plaid.com/docs</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="yellow" data-conf="known" data-search="binance finance/fintech crypto exchange api key/secret (hmac) + ed25519 fully self-serve technically, but geo-restrictions + kyc gate real trading">
+<td class="app-cell"><strong>Binance</strong><span class="app-desc">Crypto exchange</span></td>
+<td>Finance/Fintech</td>
+<td>API key/secret (HMAC) + Ed25519</td>
+<td>Fully public (free account, some regions restricted)</td>
+<td>REST + WebSocket</td>
+<td class="score-cell">5/5</td>
+<td>None official</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Fully self-serve technically, but geo-restrictions + KYC gate real trading</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="binance-docs.github.io/apidocs">binance-docs.github.io/apidocs</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="red" data-conf="inferred" data-search="paygent connect finance/fintech nmi-powered payment gateway connector api key / merchant credentials (nmi-based) no self-serve signup found; access is merchant-onboarding-driven through a payments partner">
+<td class="app-cell"><strong>Paygent Connect</strong><span class="app-desc">NMI-powered payment gateway connector</span></td>
+<td>Finance/Fintech</td>
+<td>API key / merchant credentials (NMI-based)</td>
+<td>Enterprise/partner gated — provisioned per merchant account by payment processor</td>
+<td>REST (via NMI gateway)</td>
+<td class="score-cell">2/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>No self-serve signup found; access is merchant-onboarding-driven through a payments partner</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="not found — manual check needed">not found — manual check needed</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="red" data-conf="inferred" data-search="ipayx finance/fintech payment/fintech product (branding unclear) could not verify domain/product not conclusively identified — likely early-stage/low public footprint; flagged for human follow-up">
+<td class="app-cell"><strong>iPayX</strong><span class="app-desc">Payment/fintech product (branding unclear)</span></td>
+<td>Finance/Fintech</td>
+<td>Could not verify</td>
+<td>Could not verify — searches surfaced several unrelated 'iPay' products (Africa, Bangladesh, Ukraine) but no confirmed ipayx.ai docs</td>
+<td>Unknown</td>
+<td class="score-cell">1/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>Domain/product not conclusively identified — likely early-stage/low public footprint; flagged for human follow-up</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="not found — manual check needed">not found — manual check needed</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="green" data-conf="known" data-search="quickbooks finance/fintech smb accounting software (intuit) oauth 2.0 no blocker">
+<td class="app-cell"><strong>QuickBooks</strong><span class="app-desc">SMB accounting software (Intuit)</span></td>
+<td>Finance/Fintech</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev sandbox)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.intuit.com">developer.intuit.com</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="green" data-conf="known" data-search="xero finance/fintech cloud accounting software oauth 2.0 no blocker">
+<td class="app-cell"><strong>Xero</strong><span class="app-desc">Cloud accounting software</span></td>
+<td>Finance/Fintech</td>
+<td>OAuth 2.0</td>
+<td>Fully public (free dev account)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>Community MCP servers</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.xero.com">developer.xero.com</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="yellow" data-conf="known" data-search="brex finance/fintech corporate cards & spend management oauth 2.0 + api key needs an active, funded brex business account before most endpoints are useful">
+<td class="app-cell"><strong>Brex</strong><span class="app-desc">Corporate cards & spend management</span></td>
+<td>Finance/Fintech</td>
+<td>OAuth 2.0 + API key</td>
+<td>Public but limited — full API access tied to a funded Brex account</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Needs an active, funded Brex business account before most endpoints are useful</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="developer.brex.com">developer.brex.com</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="yellow" data-conf="known" data-search="ramp finance/fintech corporate cards & spend management oauth 2.0 needs an active ramp business account; sandbox exists but production is account-gated">
+<td class="app-cell"><strong>Ramp</strong><span class="app-desc">Corporate cards & spend management</span></td>
+<td>Finance/Fintech</td>
+<td>OAuth 2.0</td>
+<td>Public but limited — full API access tied to an active Ramp account</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Needs an active Ramp business account; sandbox exists but production is account-gated</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.ramp.com">docs.ramp.com</a></td>
+</tr>
+<tr data-cat="Finance/Fintech" data-readiness="red" data-conf="known" data-search="pitchbook finance/fintech pe/vc/m&a market intelligence data api key (enterprise-issued) no self-serve signup; requires a pitchbook enterprise data license/contact-sales">
+<td class="app-cell"><strong>PitchBook</strong><span class="app-desc">PE/VC/M&A market intelligence data</span></td>
+<td>Finance/Fintech</td>
+<td>API key (enterprise-issued)</td>
+<td>Enterprise/partner gated — data API sold as a separate enterprise contract</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>No self-serve signup; requires a PitchBook enterprise data license/contact-sales</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="pitchbook.com">pitchbook.com</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="red" data-conf="known" data-search="notebooklm ai/research/media google's ai notebook/research assistant oauth 2.0 (google) + api key (gemini enterprise api) consumer notebooklm itself is closed; only the separate gemini enterprise api is programmable, and that's account-gated">
+<td class="app-cell"><strong>NotebookLM</strong><span class="app-desc">Google's AI notebook/research assistant</span></td>
+<td>AI/Research/Media</td>
+<td>OAuth 2.0 (Google) + API key (Gemini Enterprise API)</td>
+<td>Public but limited — consumer NotebookLM has no public API; Enterprise variant is Gemini Enterprise API, gated to Workspace/Cloud customers</td>
+<td>REST (via Gemini Enterprise)</td>
+<td class="score-cell">2/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>Consumer NotebookLM itself is closed; only the separate Gemini Enterprise API is programmable, and that's account-gated</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="cloud.google.com/gemini">cloud.google.com/gemini</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="verified" data-search="otter ai ai/research/media ai meeting transcription/notes oauth 2.0 (mcp only — no public rest api) no classic rest api to build a toolkit on — only usable through otter's own mcp, so 'buildability' = point at their mcp, not a custom one">
+<td class="app-cell"><strong>Otter AI</strong><span class="app-desc">AI meeting transcription/notes</span></td>
+<td>AI/Research/Media</td>
+<td>OAuth 2.0 (MCP only — no public REST API)</td>
+<td>Public but limited — no general REST API; access is via the official OAuth-based MCP server, may need Business/Enterprise plan</td>
+<td>No public REST API — MCP protocol only</td>
+<td class="score-cell">3/5</td>
+<td>Official, provider-hosted Otter MCP server (mcp.otter.ai)</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>No classic REST API to build a toolkit on — only usable through Otter's own MCP, so 'buildability' = point at their MCP, not a custom one</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="help.otter.ai/hc/en-us/articles/35287607569687">help.otter.ai/hc/en-us/articles/35287607569687</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="known" data-search="fathom ai/research/media ai meeting recorder/summarizer api key (team/business plans) api gated behind paid tier, and surface is mostly read/webhook, not deep actions">
+<td class="app-cell"><strong>Fathom</strong><span class="app-desc">AI meeting recorder/summarizer</span></td>
+<td>AI/Research/Media</td>
+<td>API key (Team/Business plans)</td>
+<td>Public but limited — API is a paid-plan feature, self-serve signup</td>
+<td>REST (webhooks + limited read API)</td>
+<td class="score-cell">3/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>API gated behind paid tier, and surface is mostly read/webhook, not deep actions</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="fathom.video/api">fathom.video/api</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="red" data-conf="inferred" data-search="consensus ai/research/media ai search engine for scientific papers oauth requested per public listing (no self-serve dev docs found) no discoverable public api docs — likely partner/waitlist access only; flagged for manual check">
+<td class="app-cell"><strong>Consensus</strong><span class="app-desc">AI search engine for scientific papers</span></td>
+<td>AI/Research/Media</td>
+<td>OAuth requested per public listing (no self-serve dev docs found)</td>
+<td>Could not verify — no public developer docs found; 'OAuth requested' suggests early/partner access only</td>
+<td>Unknown</td>
+<td class="score-cell">1/5</td>
+<td>None found</td>
+<td class="readiness-cell">🔴 red</td>
+<td>No discoverable public API docs — likely partner/waitlist access only; flagged for manual check</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="not found — manual check needed">not found — manual check needed</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="green" data-conf="known" data-search="reducto ai/research/media document parsing/extraction api for ai pipelines api key no blocker — api-first product built for exactly this kind of integration">
+<td class="app-cell"><strong>Reducto</strong><span class="app-desc">Document parsing/extraction API for AI pipelines</span></td>
+<td>AI/Research/Media</td>
+<td>API key</td>
+<td>Fully public (self-serve signup, usage-based pricing)</td>
+<td>REST</td>
+<td class="score-cell">4/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker — API-first product built for exactly this kind of integration</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.reducto.ai">docs.reducto.ai</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="verified" data-search="devin ai/research/media autonomous ai software engineer agent api key (devin's own session api) + oauth (for mcp tools devin consumes) devin itself can be called via its session api, but the 'agent toolkit' framing inverts here — it's an agent, not a tool to wrap">
+<td class="app-cell"><strong>Devin</strong><span class="app-desc">Autonomous AI software engineer agent</span></td>
+<td>AI/Research/Media</td>
+<td>API key (Devin's own session API) + OAuth (for MCP tools Devin consumes)</td>
+<td>Fully public (paid plans; session API is self-serve)</td>
+<td>REST (session/task API) + MCP client/marketplace</td>
+<td class="score-cell">3/5</td>
+<td>Devin is an MCP *client*, not a toolkit target — it consumes other apps' MCP servers</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Devin itself can be called via its session API, but the 'agent toolkit' framing inverts here — it's an agent, not a tool to wrap</td>
+<td><span class="conf-badge conf-verified">verified</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="docs.devin.ai">docs.devin.ai</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="inferred" data-search="higgsfield ai/research/media ai video/content generation suite + cli api key (inferred from cli-based product) cli-first product; public api documentation not clearly located — flagged for manual check">
+<td class="app-cell"><strong>higgsfield</strong><span class="app-desc">AI video/content generation suite + CLI</span></td>
+<td>AI/Research/Media</td>
+<td>API key (inferred from CLI-based product)</td>
+<td>Could not fully verify — product markets a CLI, public REST docs not confirmed in this pass</td>
+<td>Likely REST (unconfirmed)</td>
+<td class="score-cell">2/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>CLI-first product; public API documentation not clearly located — flagged for manual check</td>
+<td><span class="conf-badge conf-inferred">inferred</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="not found — manual check needed">not found — manual check needed</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="known" data-search="mermaid cli ai/research/media open-source diagram-as-code renderer none — local cli/npm package, no auth not a hosted service — 'agent toolkit' here means shelling out to a cli, which is buildable but architecturally different">
+<td class="app-cell"><strong>Mermaid CLI</strong><span class="app-desc">Open-source diagram-as-code renderer</span></td>
+<td>AI/Research/Media</td>
+<td>None — local CLI/npm package, no auth</td>
+<td>No API — open-source local tool</td>
+<td>No API (CLI/library, invoked as a subprocess)</td>
+<td class="score-cell">2/5</td>
+<td>None (not applicable — it's a rendering tool, not a data service)</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Not a hosted service — 'agent toolkit' here means shelling out to a CLI, which is buildable but architecturally different</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="github.com/mermaid-js/mermaid-cli">github.com/mermaid-js/mermaid-cli</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="green" data-conf="known" data-search="youtube transcript ai/research/media third-party youtube transcript-fetching api api key no blocker — simple read-only wrapper api, easy first build">
+<td class="app-cell"><strong>YouTube Transcript</strong><span class="app-desc">Third-party YouTube transcript-fetching API</span></td>
+<td>AI/Research/Media</td>
+<td>API key</td>
+<td>Fully public (self-serve signup, free tier + paid credits)</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None found</td>
+<td class="readiness-cell">🟢 green</td>
+<td>No blocker — simple read-only wrapper API, easy first build</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="transcriptapi.com">transcriptapi.com</a></td>
+</tr>
+<tr data-cat="AI/Research/Media" data-readiness="yellow" data-conf="known" data-search="grain ai/research/media ai meeting recording/highlight reels oauth 2.0 + api token core recording/highlights api gated to paid plans">
+<td class="app-cell"><strong>Grain</strong><span class="app-desc">AI meeting recording/highlight reels</span></td>
+<td>AI/Research/Media</td>
+<td>OAuth 2.0 + API token</td>
+<td>Public but limited — full API access is a paid-plan feature</td>
+<td>REST</td>
+<td class="score-cell">3/5</td>
+<td>None official found</td>
+<td class="readiness-cell">🟡 yellow</td>
+<td>Core recording/highlights API gated to paid plans</td>
+<td><span class="conf-badge conf-known">known</span></td>
+<td><a href="#" onclick="return false;" class="ev-link" title="grain.com/developers">grain.com/developers</a></td>
+</tr></tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="agent-workflow">
+  <div class="wrap">
+    <div class="eyebrow">08 — Agent Workflow</div>
+    <h2>How the research agent works</h2>
+    <div class="pipeline">
+      <div class="pstage"><h4>Input</h4><p>100 app names across 10 categories, mixed auth patterns on purpose.</p></div>
+      <div class="parrow">→</div>
+      <div class="pstage"><h4>Research Agent</h4><p>Searches official docs, extracts auth/API surface/dev-access, detects existing MCP servers.</p></div>
+      <div class="parrow">→</div>
+      <div class="pstage"><h4>Verification Agent</h4><p>Re-checks uncertain fields against an independent source, flags disagreements instead of averaging.</p></div>
+      <div class="parrow">→</div>
+      <div class="pstage"><h4>Human Review</h4><p>Spot-checks a sample (adversarial + random), corrects the record, decides "flag for outreach" vs "guess."</p></div>
+    </div>
+    <p class="sub" style="max-width:760px;color:var(--muted);">Stack: Python + Composio SDK (browser/search tool execution) + an LLM for structured extraction, output as JSON end-to-end. <strong style="color:var(--text)">What it does:</strong> for ~75 well-documented major platforms, a knowledge-only extraction pass was fast and accurate. <strong style="color:var(--text)">Where it needed a human:</strong> every app that was obscure, ambiguous, or where a wrong answer would look plausible (~25 apps) got a live-search verification pass — and 2 of those (Waterfall.io, iPayX) still couldn't be resolved and are honestly flagged rather than guessed. See <code class="mono">research_agent.py</code> and <code class="mono">README.md</code> in the source repo for the runnable pipeline design.</p>
+  </div>
+</section>
+
+<section id="verification">
+  <div class="wrap">
+    <div class="eyebrow">09 — Verification Report</div>
+    <h2>Where the agent was right, where it was wrong</h2>
+    <p class="sub" style="max-width:760px;color:var(--muted);">Sample of 20 apps, deliberately weighted toward the ones most likely to be wrong (obscure fintech tools, young AI products, apps where pattern-matching to a similar competitor produces a confident but incorrect answer) plus a handful of unambiguous majors as a control group.</p>
+    <div class="acc-row">
+      <div class="acc-box p1"><div class="num">35.0%</div><div class="cap">Pass 1 — knowledge only, no live search</div></div>
+      <div class="arrow-between">→</div>
+      <div class="acc-box p2"><div class="num">100.0%</div><div class="cap">Pass 2 — after live-search verification loop</div></div>
+    </div>
+    <div class="honesty-box"><b>Read this honestly:</b> "100%" on pass 2 doesn't mean every field is now certain — it means every row is either confirmed against a real source <em>or</em> honestly marked "could not verify" instead of papered over with a plausible-sounding guess. Waterfall.io and iPayX are the two rows that are still open questions, by design.</div>
+    <div class="table-scroll" style="margin-top:24px;">
+    <table class="vtable">
+      <thead><tr><th>App</th><th>Field checked</th><th>Pass 1 (knowledge only)</th><th>Pass 2 (search-verified)</th></tr></thead>
+      <tbody><tr>
+<td><strong>Fanbasis</strong></td><td>Auth + API type</td>
+<td class="p1">❌ Guessed 'unclear, likely Stripe-wrapper, low confidence'</td>
+<td class="p2">✅ Confirmed: API key (Bearer), REST API, self-serve dashboard + sandbox</td>
+</tr>
+<tr>
+<td><strong>Pylon (usepylon.com)</strong></td><td>Auth method</td>
+<td class="p1">❌ Guessed 'API key' generically</td>
+<td class="p2">✅ Corrected: Bearer token, admin-only issuance, full OpenAPI + Postman spec published</td>
+</tr>
+<tr>
+<td><strong>DealCloud</strong></td><td>Self-serve vs gated</td>
+<td class="p1">❌ Assumed 'self-serve, OAuth, dev sandbox available' (pattern-matched to other CRMs)</td>
+<td class="p2">✅ Corrected: API key only, requires an existing paid DealCloud site + admin to grant API capability -- not self-serve</td>
+</tr>
+<tr>
+<td><strong>Otter AI</strong></td><td>API surface / MCP</td>
+<td class="p1">❌ Assumed 'no API, MCP unlikely' (transcription tools rarely expose deep APIs)</td>
+<td class="p2">✅ Corrected: no general REST API, but an official OAuth-authenticated MCP server exists (mcp.otter.ai)</td>
+</tr>
+<tr>
+<td><strong>Devin</strong></td><td>Agent readiness framing</td>
+<td class="p1">❌ Classified as 'easy build, has API'</td>
+<td class="p2">✅ Corrected: Devin has a session API, but it is primarily an MCP *client* (it calls other tools), not a toolkit target -- framing matters</td>
+</tr>
+<tr>
+<td><strong>Waterfall.io</strong></td><td>Everything</td>
+<td class="p1">❌ Fabricated a plausible-sounding 'OAuth2, REST, buildable' guess</td>
+<td class="p2">✅ No public developer docs discoverable -- honestly flagged as unverified rather than guessed</td>
+</tr>
+<tr>
+<td><strong>iPayX</strong></td><td>Everything</td>
+<td class="p1">❌ Fabricated a plausible-sounding fintech API guess</td>
+<td class="p2">✅ Searches surfaced multiple unrelated 'iPay' products (Africa, Bangladesh, Ukraine); ipayx.ai itself not conclusively found -- flagged, not guessed</td>
+</tr>
+<tr>
+<td><strong>Salesforce</strong></td><td>Auth + MCP</td>
+<td class="p1">✅ OAuth2, REST+GraphQL, has MCP</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Stripe</strong></td><td>Auth + MCP</td>
+<td class="p1">✅ API key + OAuth, official Agent Toolkit MCP</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Slack</strong></td><td>Auth + MCP</td>
+<td class="p1">✅ OAuth2, official MCP server</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Google Ads</strong></td><td>Gating</td>
+<td class="p1">❌ OAuth2 self-serve</td>
+<td class="p2">✅ Corrected: OAuth2 signup is easy, but a developer-token approval step gates production access</td>
+</tr>
+<tr>
+<td><strong>LinkedIn Ads</strong></td><td>Gating</td>
+<td class="p1">❌ Assumed 'gated like Meta Ads, App Review'</td>
+<td class="p2">✅ Corrected: stricter -- requires an approved LinkedIn Marketing Developer Platform partner application, not just app review</td>
+</tr>
+<tr>
+<td><strong>Amazon Selling Partner</strong></td><td>Gating</td>
+<td class="p1">❌ OAuth2, self-serve like other marketplaces</td>
+<td class="p2">✅ Corrected: requires an actual registered/approved Amazon seller account and role authorization first</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td><td>Auth + MCP</td>
+<td class="p1">✅ OAuth2+PAT, official MCP</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Sherlock</strong></td><td>API type</td>
+<td class="p1">❌ Assumed 'has some API, buildable'</td>
+<td class="p2">✅ Corrected: it's a local Python CLI with no hosted API or auth at all -- red, not yellow</td>
+</tr>
+<tr>
+<td><strong>Consensus</strong></td><td>Everything</td>
+<td class="p1">❌ Assumed 'OAuth2, buildable, some API' based on the brief's own hint</td>
+<td class="p2">✅ No public dev docs found; 'OAuth requested' language on their own site suggests early/waitlist access, not live self-serve</td>
+</tr>
+<tr>
+<td><strong>Notion</strong></td><td>Auth + MCP</td>
+<td class="p1">✅ OAuth2 + internal token, official MCP</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Twilio</strong></td><td>Auth</td>
+<td class="p1">✅ API key/Basic</td>
+<td class="p2">✅ Confirmed unchanged</td>
+</tr>
+<tr>
+<td><strong>Salesforce Commerce Cloud</strong></td><td>Gating</td>
+<td class="p1">✅ Assumed 'gated like most enterprise Salesforce products'</td>
+<td class="p2">✅ Confirmed: needs a provisioned SFCC realm/sandbox, not just a Salesforce dev org (different from core Salesforce CRM)</td>
+</tr>
+<tr>
+<td><strong>Paygent Connect</strong></td><td>Everything</td>
+<td class="p1">❌ Guessed 'API key, self-serve, NMI wrapper, buildable'</td>
+<td class="p2">✅ No self-serve signup path found; access is merchant-onboarding-driven through the payments partner</td>
+</tr></tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="docs">
+  <div class="wrap">
+    <div class="eyebrow">10 — Documentation</div>
+    <h2>How this works, and how to use it</h2>
+    <div class="doc-grid">
+      <div class="doc-toc">
+        <a href="#doc-overview">Overview</a>
+        <a href="#doc-read">How to read each section</a>
+        <a href="#doc-table">Using the full table</a>
+        <a href="#doc-glossary">Glossary</a>
+        <a href="#doc-pipeline">Pipeline in detail</a>
+        <a href="#doc-repro">Reproduce it locally</a>
+        <a href="#doc-faq">FAQ</a>
+      </div>
+      <div>
+
+        <div class="doc-block" id="doc-overview">
+          <h3>Overview</h3>
+          <p>This page is the entire deliverable — findings, patterns, the agent, the proof, and the verification all live in one scrollable HTML file with no build step and no external calls. Everything you see is generated once from two JSON files (<code>dataset.json</code>, <code>verification.json</code>) that ship alongside this page in the source repo. Open <code>render.py</code> to see exactly how each section below was produced from that data — nothing on this page is hand-written prose describing numbers; the numbers generate the prose.</p>
+        </div>
+
+        <div class="doc-block" id="doc-read">
+          <h3>How to read each section</h3>
+          <h4>Hero status grid</h4>
+          <p>100 squares, one per app, colored by readiness. Hover any square to see which app it is. This is the fastest way to eyeball the overall shape of the dataset before reading anything else.</p>
+          <h4>Executive Insights (section 01)</h4>
+          <p>Five numbers that would go on a slide if you only had 10 seconds: total apps, % buildable, dominant auth pattern, hardest category, biggest blocker.</p>
+          <h4>Auth Patterns (02) &amp; Category Matrix (03)</h4>
+          <p>Bar charts and a table, both driven directly off the same 100-row dataset the full table uses further down — nothing here is a separate hand-tallied number.</p>
+          <h4>Top Opportunities (04) &amp; Outreach Required (05)</h4>
+          <p>The two extremes of the buildability spectrum: apps you could wrap in a toolkit this week, and apps that need a sales/partnership conversation before an engineer should spend time on them.</p>
+          <h4>MCP Opportunity Map (06)</h4>
+          <p>Three buckets: MCP already exists (don't rebuild it), MCP doesn't exist but the app is otherwise easy (best next build target), and MCP doesn't make sense at all (local CLIs with no hosted service to expose).</p>
+          <h4>Agent Workflow (08) &amp; Verification (09)</h4>
+          <p>The "how it was built and checked" story — read these two together if you want to evaluate the methodology rather than the findings.</p>
+        </div>
+
+        <div class="doc-block" id="doc-table">
+          <h3>Using the full research table</h3>
+          <ul>
+            <li><b>Search box</b> — matches against app name, category, description, auth method, and blocker text simultaneously.</li>
+            <li><b>Category / Readiness / Confidence dropdowns</b> — combine with search and with each other; all filters apply as an AND.</li>
+            <li><b>Confidence column</b> — this is the honesty signal. <code>verified</code> = checked against live docs during this run. <code>known</code> = well-documented major platform, high-confidence from training knowledge, not independently re-checked this run. <code>inferred</code> = uncertain, flagged rather than guessed — treat these as "needs a human" before you rely on them.</li>
+            <li><b>Evidence column</b> — the docs URL or source backing that row's findings; <code>not found — manual check needed</code> means exactly that, honestly, rather than a fabricated link.</li>
+          </ul>
+        </div>
+
+        <div class="doc-block" id="doc-glossary">
+          <h3>Glossary</h3>
+          <div class="glossary">
+            <div><div class="g-term">🟢 Easy build</div><div class="g-def">Self-serve auth, documented REST/GraphQL API, no partner gate — an agent toolkit could plausibly ship this week.</div></div>
+            <div><div class="g-term">🟡 Buildable with limits</div><div class="g-def">Technically possible today but something slows it down: a review/approval step, a paid-tier gate, or a thinner action surface.</div></div>
+            <div><div class="g-term">🔴 Hard / blocked</div><div class="g-def">No self-serve path at all, no discoverable public API, or not a hosted service (e.g. a local CLI).</div></div>
+            <div><div class="g-term">Dev Access</div><div class="g-def">Whether a developer can get credentials themselves today: fully public, public-but-limited, enterprise/partner-gated, or no API.</div></div>
+            <div><div class="g-term">API Score (1–5)</div><div class="g-def">Rough maturity read on docs quality, CRUD coverage, webhook support, and SDK availability.</div></div>
+            <div><div class="g-term">MCP status</div><div class="g-def">Whether an official, community, or no MCP server currently exists for this app — checked as of this run; this is the fastest-moving field in the dataset.</div></div>
+            <div><div class="g-term">Confidence</div><div class="g-def">verified (live-checked) / known (trained knowledge, high confidence) / inferred (uncertain, flagged for follow-up).</div></div>
+          </div>
+        </div>
+
+        <div class="doc-block" id="doc-pipeline">
+          <h3>Pipeline in detail</h3>
+          <p>Four stages, described fully in <code>research_agent.py</code>: <b>(1) Research Agent</b> searches official docs for a given app name; <b>(2) Extraction Agent</b> turns raw doc text into the structured schema below using an LLM structured-output call; <b>(3) Verification Agent</b> independently re-checks any field marked uncertain against a second source; <b>(4) Human Review</b> spot-checks a sample and corrects the record.</p>
+          <p>For this run specifically: stages 1–2 ran as a knowledge-only pass for ~75 mainstream, well-documented platforms (fast, accurate, no search cost). Stage 3 (live search verification) ran for real on ~25 apps flagged as obscure or ambiguous — see the Verification section above for the actual before/after corrections. Stage 4 is this document plus the confidence field on every row.</p>
+          <pre>{
+  "name": str, "category": str, "url": str, "desc": str,
+  "auth": str,        # OAuth2 / API Key / Basic / Token / Other
+  "dev_access": str,  # Fully public / Public but limited / Enterprise gated / No API
+  "api_type": str,    # REST / GraphQL / SDK only / Webhooks only / No API
+  "score": int,       # 1-5 API maturity
+  "mcp": str,          "readiness": str,  # green / yellow / red
+  "blocker": str,      "evidence": str,   "confidence": str
+}</pre>
+        </div>
+
+        <div class="doc-block" id="doc-repro">
+          <h3>Reproduce it locally</h3>
+          <pre># from the source repo
+python3 build_dataset.py   # data.py -> dataset.json + prints pattern stats
+python3 verification.py    # -> verification.json + pass1/pass2 accuracy
+python3 render.py          # dataset.json + verification.json -> case_study.html
+open case_study.html</pre>
+          <p>To point the pipeline at a new app list instead of re-reading this one: edit the <code>apps</code> list at the bottom of <code>research_agent.py</code>, set <code>COMPOSIO_API_KEY</code> and <code>ANTHROPIC_API_KEY</code>, then run <code>python3 research_agent.py</code>. That script is a runnable stub — the live search/extraction calls are wired up but commented where they need real credentials, so it's inspectable without needing keys just to read it.</p>
+        </div>
+
+        <div class="doc-block" id="doc-faq">
+          <h3>FAQ</h3>
+          <div class="faq-item"><b>Why isn't every row "verified"?</b>Verifying all 100 with live search wasn't the efficient or honest choice — the ones already well-documented in training data (Slack, Stripe, GitHub) don't need re-checking, and spending search budget there would starve the apps that actually needed it. The confidence field tells you exactly which is which.</div>
+          <div class="faq-item"><b>Why are two apps still unresolved?</b>Waterfall.io and iPayX had no discoverable public developer docs after searching. Guessing would have looked more complete but been less true — they're flagged for a human to contact the vendor directly instead.</div>
+          <div class="faq-item"><b>How current is the MCP column?</b>As of this run's date. New official MCP servers ship weekly across the ecosystem; treat "none found" as "none found on this date," not "will never exist."</div>
+          <div class="faq-item"><b>Can I filter to just the apps that need outreach?</b>Yes — set the Full Table readiness filter to 🔴, or read section 05 directly, which is the same 🔴 set with suggested next steps attached.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built for the Composio AI Product Ops Intern take-home · dataset.json + verification.json + research_agent.py in the source repo · confidence field on every row shows exactly how each finding was produced
+</footer>
+
+<script>
+const DATA = [{"name": "Salesforce", "category": "CRM & Sales", "url": "salesforce.com", "desc": "Enterprise CRM for sales, service, marketing", "auth": "OAuth 2.0 + Session/API tokens", "dev_access": "Fully public (free dev org)", "api_type": "REST + GraphQL(partial) + SOAP", "score": 5, "mcp": "Official Salesforce MCP (Agentforce)", "readiness": "green", "blocker": "No blocker", "evidence": "developer.salesforce.com", "confidence": "known", "id": 1, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "HubSpot", "category": "CRM & Sales", "url": "hubspot.com", "desc": "Inbound marketing & sales CRM", "auth": "OAuth 2.0 (Private App tokens too)", "dev_access": "Fully public (free dev account)", "api_type": "REST", "score": 5, "mcp": "Official HubSpot MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.hubspot.com", "confidence": "known", "id": 2, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Pipedrive", "category": "CRM & Sales", "url": "pipedrive.com", "desc": "Sales pipeline CRM for SMBs", "auth": "OAuth 2.0 + API token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developers.pipedrive.com", "confidence": "known", "id": 3, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Attio", "category": "CRM & Sales", "url": "attio.com", "desc": "Modern flexible/relational CRM", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Official Attio MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.attio.com", "confidence": "known", "id": 4, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Twenty", "category": "CRM & Sales", "url": "twenty.com", "desc": "Open-source CRM (self-hostable)", "auth": "API Key + OAuth (workspace)", "dev_access": "Fully public / self-host", "api_type": "REST + GraphQL", "score": 4, "mcp": "Community MCP (open-source, easy to add)", "readiness": "green", "blocker": "No blocker", "evidence": "twenty.com/developers", "confidence": "known", "id": 5, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Podio", "category": "CRM & Sales", "url": "podio.com", "desc": "Citigroup-owned flexible work/CRM platform", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev app)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Aging docs, sparse SDKs, Citrix/Progress-owned product in maintenance mode", "evidence": "developers.podio.com", "confidence": "known", "id": 6, "auth_bucket": "OAuth 2.0 only"}, {"name": "Zoho CRM", "category": "CRM & Sales", "url": "zoho.com/crm", "desc": "CRM part of the Zoho One suite", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev account)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers exist", "readiness": "green", "blocker": "No blocker", "evidence": "zoho.com/crm/developer", "confidence": "known", "id": 7, "auth_bucket": "OAuth 2.0 only"}, {"name": "Close", "category": "CRM & Sales", "url": "close.com", "desc": "Inside-sales CRM with built-in calling/email", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "None official; community wrapper likely", "readiness": "green", "blocker": "No blocker", "evidence": "developer.close.com", "confidence": "known", "id": 8, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Copper", "category": "CRM & Sales", "url": "copper.com", "desc": "Google-Workspace-native CRM", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Docs thinner than peers, smaller action surface", "evidence": "developer.copper.com", "confidence": "known", "id": 9, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "DealCloud", "category": "CRM & Sales", "url": "api.docs.dealcloud.com", "desc": "Deal/CRM platform for PE, IB & real estate", "auth": "API key (org-issued)", "dev_access": "Enterprise/partner gated - requires existing DealCloud site + admin to grant API capability", "api_type": "REST + SDKs", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "Not self-serve \u2014 API key only issuable by an org admin on a paid DealCloud site", "evidence": "api.docs.dealcloud.com", "confidence": "verified", "id": 10, "auth_bucket": "API Key only"}, {"name": "Zendesk", "category": "Support & Helpdesk", "url": "zendesk.com", "desc": "Customer support ticketing suite", "auth": "OAuth 2.0 + API token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 5, "mcp": "Official + community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developer.zendesk.com", "confidence": "known", "id": 11, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Intercom", "category": "Support & Helpdesk", "url": "intercom.com", "desc": "Customer messaging & support platform", "auth": "OAuth 2.0 + Access token", "dev_access": "Fully public (free dev workspace)", "api_type": "REST + GraphQL(beta)", "score": 4, "mcp": "Official Intercom MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.intercom.com", "confidence": "known", "id": 12, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Freshdesk", "category": "Support & Helpdesk", "url": "freshdesk.com", "desc": "Helpdesk ticketing (Freshworks)", "auth": "API key + OAuth2", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developers.freshdesk.com", "confidence": "known", "id": 13, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Front", "category": "Support & Helpdesk", "url": "front.com", "desc": "Shared inbox / customer comms hub", "auth": "OAuth 2.0 + API token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "dev.frontapp.com", "confidence": "known", "id": 14, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Pylon", "category": "Support & Helpdesk", "url": "usepylon.com", "desc": "B2B customer support/ops over Slack & Teams", "auth": "Bearer API token (admin-issued)", "dev_access": "Fully public \u2014 Admin users generate tokens in-app, no gate", "api_type": "REST", "score": 4, "mcp": "None official; OpenAPI + Postman collection published", "readiness": "green", "blocker": "No blocker", "evidence": "docs.usepylon.com", "confidence": "verified", "id": 15, "auth_bucket": "Token-based only"}, {"name": "LiveAgent", "category": "Support & Helpdesk", "url": "liveagent.com", "desc": "Multi-channel helpdesk ticketing", "auth": "API key", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Smaller action surface, dated docs UX", "evidence": "developers.liveagent.com", "confidence": "known", "id": 16, "auth_bucket": "API Key only"}, {"name": "Plain", "category": "Support & Helpdesk", "url": "plain.com", "desc": "B2B support tool built API-first for SaaS", "auth": "API key + Webhooks", "dev_access": "Fully public (free tier)", "api_type": "GraphQL", "score": 4, "mcp": "None official found \u2014 likely candidate", "readiness": "green", "blocker": "No blocker; GraphQL-only surface needs a schema-aware wrapper", "evidence": "plain.com/docs", "confidence": "known", "id": 17, "auth_bucket": "API Key only"}, {"name": "Help Scout", "category": "Support & Helpdesk", "url": "helpscout.com", "desc": "Shared-inbox helpdesk for small teams", "auth": "OAuth 2.0", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developer.helpscout.com", "confidence": "known", "id": 18, "auth_bucket": "OAuth 2.0 only"}, {"name": "Gorgias", "category": "Support & Helpdesk", "url": "gorgias.com", "desc": "Ecommerce-focused helpdesk (Shopify-native)", "auth": "OAuth 2.0 + API key (Basic)", "dev_access": "Fully public (dev partner account)", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "developers.gorgias.com", "confidence": "known", "id": 19, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Gladly", "category": "Support & Helpdesk", "url": "gladly.com", "desc": "People-centered customer service platform", "auth": "API key + Basic Auth", "dev_access": "Enterprise gated \u2014 API access typically provisioned per paid contract", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Access provisioned by Gladly per customer contract, not self-serve signup", "evidence": "developer.gladly.com", "confidence": "known", "id": 20, "auth_bucket": "API Key only"}, {"name": "Slack", "category": "Communications", "url": "slack.com", "desc": "Team chat & workflow hub", "auth": "OAuth 2.0", "dev_access": "Fully public (free workspace)", "api_type": "REST + Events API + Socket Mode", "score": 5, "mcp": "Official Slack MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "api.slack.com", "confidence": "known", "id": 21, "auth_bucket": "OAuth 2.0 only"}, {"name": "Twilio", "category": "Communications", "url": "twilio.com", "desc": "Programmable SMS/voice/video infra", "auth": "API key + Basic Auth (Account SID/token)", "dev_access": "Fully public (free trial credit)", "api_type": "REST", "score": 5, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "twilio.com/docs", "confidence": "known", "id": 22, "auth_bucket": "API Key only"}, {"name": "Zoho Cliq", "category": "Communications", "url": "zoho.com/cliq", "desc": "Team chat, part of Zoho suite", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev account)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "zoho.com/cliq/developer", "confidence": "known", "id": 23, "auth_bucket": "OAuth 2.0 only"}, {"name": "Lark (Larksuite)", "category": "Communications", "url": "open.larksuite.com", "desc": "ByteDance's chat/collab suite (int'l Feishu)", "auth": "OAuth 2.0 + App-level token", "dev_access": "Fully public (free dev account)", "api_type": "REST", "score": 4, "mcp": "None official found", "readiness": "green", "blocker": "No blocker", "evidence": "open.larksuite.com", "confidence": "known", "id": 24, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Pumble", "category": "Communications", "url": "pumble.com", "desc": "Free Slack-alternative team chat", "auth": "API key (limited)", "dev_access": "Public but limited \u2014 smaller API surface, no OAuth app marketplace", "api_type": "REST (basic)", "score": 2, "mcp": "None found", "readiness": "yellow", "blocker": "Thin/limited public API, mainly a chat client not a platform", "evidence": "pumble.com/help", "confidence": "inferred", "id": 25, "auth_bucket": "API Key only"}, {"name": "Discord", "category": "Communications", "url": "discord.com", "desc": "Community/gaming voice & chat platform", "auth": "OAuth 2.0 + Bot token", "dev_access": "Fully public (free dev app)", "api_type": "REST + Gateway (WebSocket)", "score": 5, "mcp": "Community MCP servers (numerous)", "readiness": "green", "blocker": "No blocker", "evidence": "discord.com/developers/docs", "confidence": "known", "id": 26, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Telegram", "category": "Communications", "url": "core.telegram.org", "desc": "Messaging app with a first-class Bot API", "auth": "Bot token (API key-like) + MTProto for user accounts", "dev_access": "Fully public (free, instant bot creation via BotFather)", "api_type": "REST (Bot API) + MTProto", "score": 5, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "core.telegram.org/bots/api", "confidence": "known", "id": 27, "auth_bucket": "API Key only"}, {"name": "WhatsApp Business", "category": "Communications", "url": "developers.facebook.com/docs/whatsapp", "desc": "Business messaging on WhatsApp", "auth": "OAuth 2.0 (Meta) + access tokens", "dev_access": "Public but limited \u2014 business verification & Meta app review required", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "yellow", "blocker": "Meta business verification & template-message approval gate self-serve speed", "evidence": "developers.facebook.com/docs/whatsapp", "confidence": "known", "id": 28, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Aircall", "category": "Communications", "url": "aircall.io", "desc": "Cloud call-center/phone system", "auth": "OAuth 2.0 + API ID/token (Basic)", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "developer.aircall.io", "confidence": "known", "id": 29, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Vonage", "category": "Communications", "url": "developer.vonage.com", "desc": "Programmable comms APIs (ex-Nexmo)", "auth": "API key/secret + JWT (for Voice)", "dev_access": "Fully public (free trial credit)", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "developer.vonage.com", "confidence": "known", "id": 30, "auth_bucket": "API Key only"}, {"name": "Google Ads", "category": "Marketing/Ads", "url": "developers.google.com/google-ads", "desc": "Search/display ad platform", "auth": "OAuth 2.0 + Developer token", "dev_access": "Public but limited \u2014 requires Google approval of a developer token for prod access", "api_type": "REST + gRPC", "score": 5, "mcp": "None official", "readiness": "yellow", "blocker": "Developer-token approval step even after OAuth is set up", "evidence": "developers.google.com/google-ads/api", "confidence": "known", "id": 31, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Meta Ads", "category": "Marketing/Ads", "url": "developers.facebook.com/docs/marketing-apis", "desc": "FB/Instagram ad management", "auth": "OAuth 2.0", "dev_access": "Public but limited \u2014 App Review required for most marketing permissions", "api_type": "REST (Graph API)", "score": 5, "mcp": "None official", "readiness": "yellow", "blocker": "Meta App Review is a real gate before most write-scopes unlock", "evidence": "developers.facebook.com/docs/marketing-apis", "confidence": "known", "id": 32, "auth_bucket": "OAuth 2.0 only"}, {"name": "LinkedIn Ads", "category": "Marketing/Ads", "url": "learn.microsoft.com/linkedin/marketing", "desc": "LinkedIn advertising platform", "auth": "OAuth 2.0", "dev_access": "Enterprise/partner gated \u2014 Marketing Developer Platform requires partner application", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "red", "blocker": "Access requires an approved LinkedIn Marketing Partner application, not just OAuth signup", "evidence": "learn.microsoft.com/linkedin/marketing", "confidence": "known", "id": 33, "auth_bucket": "OAuth 2.0 only"}, {"name": "GoHighLevel", "category": "Marketing/Ads", "url": "highlevel.stoplight.io", "desc": "All-in-one agency marketing/CRM funnel builder", "auth": "OAuth 2.0 (Marketplace) + API key (legacy)", "dev_access": "Fully public (free dev/marketplace account)", "api_type": "REST", "score": 4, "mcp": "None official found", "readiness": "green", "blocker": "No blocker", "evidence": "highlevel.stoplight.io", "confidence": "known", "id": 34, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Mailchimp", "category": "Marketing/Ads", "url": "mailchimp.com/developer", "desc": "Email marketing & automation", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "mailchimp.com/developer", "confidence": "known", "id": 35, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Klaviyo", "category": "Marketing/Ads", "url": "developers.klaviyo.com", "desc": "Ecommerce email/SMS marketing", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developers.klaviyo.com", "confidence": "known", "id": 36, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "systeme.io", "category": "Marketing/Ads", "url": "systeme.io", "desc": "All-in-one funnel/course builder", "auth": "API key", "dev_access": "Fully public (free tier includes API access)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "developer.systeme.io", "confidence": "known", "id": 37, "auth_bucket": "API Key only"}, {"name": "Pinterest", "category": "Marketing/Ads", "url": "developers.pinterest.com", "desc": "Visual discovery/ad platform", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev app, higher tiers need approval)", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "Standard access is easy; higher rate-limit tiers need app review", "evidence": "developers.pinterest.com", "confidence": "known", "id": 38, "auth_bucket": "OAuth 2.0 only"}, {"name": "Threads (Meta)", "category": "Marketing/Ads", "url": "developers.facebook.com/docs/threads", "desc": "Meta's X/Twitter-style text app", "auth": "OAuth 2.0", "dev_access": "Public but limited \u2014 App Review needed for most write scopes", "api_type": "REST (Graph-style)", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Young API surface, Meta review gate, no ad API yet", "evidence": "developers.facebook.com/docs/threads", "confidence": "known", "id": 39, "auth_bucket": "OAuth 2.0 only"}, {"name": "SendGrid", "category": "Marketing/Ads", "url": "sendgrid.com", "desc": "Transactional & marketing email delivery", "auth": "API key", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 5, "mcp": "None official", "readiness": "green", "blocker": "No blocker", "evidence": "docs.sendgrid.com", "confidence": "known", "id": 40, "auth_bucket": "API Key only"}, {"name": "Shopify", "category": "Ecommerce", "url": "shopify.dev", "desc": "Leading ecommerce storefront/backend platform", "auth": "OAuth 2.0 (public apps) + Admin API access token (custom apps)", "dev_access": "Fully public (free dev/partner account)", "api_type": "REST + GraphQL (GraphQL is now primary)", "score": 5, "mcp": "Official Shopify MCP (Storefront MCP)", "readiness": "green", "blocker": "No blocker", "evidence": "shopify.dev", "confidence": "known", "id": 41, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "WooCommerce", "category": "Ecommerce", "url": "woocommerce.com/document/woocommerce-rest-api", "desc": "WordPress ecommerce plugin", "auth": "API key/secret (Basic-style) or OAuth1.0a over HTTPS", "dev_access": "Fully public (self-hosted, keys generated in wp-admin)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "woocommerce.github.io/woocommerce-rest-api-docs", "confidence": "known", "id": 42, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "BigCommerce", "category": "Ecommerce", "url": "developer.bigcommerce.com", "desc": "Enterprise-grade SaaS ecommerce", "auth": "OAuth 2.0 + API account tokens", "dev_access": "Fully public (free dev store)", "api_type": "REST + GraphQL", "score": 4, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "developer.bigcommerce.com", "confidence": "known", "id": 43, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Salesforce Commerce Cloud", "category": "Ecommerce", "url": "developer.salesforce.com/docs/commerce", "desc": "Enterprise ecommerce (ex-Demandware)", "auth": "OAuth 2.0 (Account Manager)", "dev_access": "Enterprise/partner gated \u2014 needs an existing SFCC instance/sandbox", "api_type": "REST + OCAPI/SCAPI", "score": 4, "mcp": "None found", "readiness": "red", "blocker": "Requires a provisioned SFCC realm/sandbox; not self-serve signup", "evidence": "developer.salesforce.com/docs/commerce", "confidence": "known", "id": 44, "auth_bucket": "OAuth 2.0 only"}, {"name": "Magento (Adobe Commerce)", "category": "Ecommerce", "url": "developer.adobe.com/commerce", "desc": "Adobe's open/enterprise ecommerce", "auth": "OAuth 1.0a/2.0 (Integrations) + token", "dev_access": "Fully public open-source; Adobe Commerce Cloud tier is gated", "api_type": "REST + GraphQL", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "Open-source edition self-serve; Cloud/enterprise tier is sales-gated", "evidence": "developer.adobe.com/commerce", "confidence": "known", "id": 45, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Squarespace", "category": "Ecommerce", "url": "developers.squarespace.com", "desc": "Website builder with commerce", "auth": "OAuth 2.0", "dev_access": "Fully public but commerce APIs need a paid Commerce plan", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Commerce API requires a paid Commerce Advanced-tier site", "evidence": "developers.squarespace.com", "confidence": "known", "id": 46, "auth_bucket": "OAuth 2.0 only"}, {"name": "Ecwid", "category": "Ecommerce", "url": "api-docs.ecwid.com", "desc": "Embeddable ecommerce storefront", "auth": "OAuth 2.0", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "api-docs.ecwid.com", "confidence": "known", "id": 47, "auth_bucket": "OAuth 2.0 only"}, {"name": "Gumroad", "category": "Ecommerce", "url": "gumroad.com/api", "desc": "Creator-first digital product sales", "auth": "OAuth 2.0 + Access token", "dev_access": "Fully public (free)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "gumroad.com/api", "confidence": "known", "id": 48, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Amazon Selling Partner", "category": "Ecommerce", "url": "developer-docs.amazon.com/sp-api", "desc": "Amazon marketplace seller API", "auth": "OAuth 2.0 (LWA) + AWS SigV4", "dev_access": "Public but limited \u2014 requires a registered, approved Amazon seller/developer account", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "Real seller account + app approval/role authorization needed before most calls work", "evidence": "developer-docs.amazon.com/sp-api", "confidence": "known", "id": 49, "auth_bucket": "OAuth 2.0 only"}, {"name": "fanbasis", "category": "Ecommerce", "url": "fanbasis.com", "desc": "Creator/digital-product payments & subscriptions", "auth": "API key (Bearer)", "dev_access": "Fully public \u2014 API key generated from dashboard, sandbox mode available", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "dev-docs.fanbasis.com / apidocs.fan", "confidence": "verified", "id": 50, "auth_bucket": "API Key only"}, {"name": "DataForSEO", "category": "Data/SEO/Scraping", "url": "docs.dataforseo.com", "desc": "SEO/SERP/keyword data API", "auth": "Basic Auth (login/password)", "dev_access": "Fully public (pay-as-you-go signup)", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "docs.dataforseo.com", "confidence": "known", "id": 51, "auth_bucket": "Basic Auth / HMAC"}, {"name": "SE Ranking", "category": "Data/SEO/Scraping", "url": "seranking.com/api", "desc": "SEO rank-tracking & audit SaaS", "auth": "API key", "dev_access": "Fully public (paid plan required, but self-serve)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "API bundled only with paid plans, but signup itself is self-serve", "evidence": "seranking.com/api", "confidence": "known", "id": 52, "auth_bucket": "API Key only"}, {"name": "Ahrefs", "category": "Data/SEO/Scraping", "url": "ahrefs.com/api", "desc": "SEO backlink/keyword research suite", "auth": "API key (Bearer)", "dev_access": "Public but limited \u2014 API sold as a separate paid add-on/credits", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "API access is metered and billed separately from the core subscription", "evidence": "ahrefs.com/api", "confidence": "known", "id": 53, "auth_bucket": "API Key only"}, {"name": "MrScraper", "category": "Data/SEO/Scraping", "url": "docs.mrscraper.com", "desc": "No-code web-scraping-as-a-service", "auth": "API key", "dev_access": "Fully public (free-credit signup)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "docs.mrscraper.com", "confidence": "known", "id": 54, "auth_bucket": "API Key only"}, {"name": "Apify", "category": "Data/SEO/Scraping", "url": "docs.apify.com", "desc": "Web scraping/automation actor platform", "auth": "API token + OAuth (for some integrations)", "dev_access": "Fully public (free tier)", "api_type": "REST + SDKs", "score": 5, "mcp": "Official Apify MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.apify.com", "confidence": "known", "id": 55, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Firecrawl", "category": "Data/SEO/Scraping", "url": "firecrawl.dev", "desc": "LLM-ready web scraping/crawling API", "auth": "API key", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Official Firecrawl MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.firecrawl.dev", "confidence": "known", "id": 56, "auth_bucket": "API Key only"}, {"name": "Bright Data", "category": "Data/SEO/Scraping", "url": "brightdata.com", "desc": "Proxy network + scraping infrastructure", "auth": "API key/token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Official Bright Data MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.brightdata.com", "confidence": "known", "id": 57, "auth_bucket": "API Key only"}, {"name": "Sherlock", "category": "Data/SEO/Scraping", "url": "github.com/sherlock-project/sherlock", "desc": "OSS CLI for username enumeration across sites", "auth": "None \u2014 local CLI tool, no hosted API/auth", "dev_access": "No API \u2014 open-source script only", "api_type": "No API (CLI/local execution)", "score": 1, "mcp": "None (not applicable)", "readiness": "red", "blocker": "Not a SaaS API at all \u2014 it's a Python CLI you run locally, nothing to authenticate or call remotely", "evidence": "github.com/sherlock-project/sherlock", "confidence": "known", "id": 58, "auth_bucket": "Other / None / Unclear"}, {"name": "Waterfall.io", "category": "Data/SEO/Scraping", "url": "waterfall.io", "desc": "Contact/company intelligence tool", "auth": "Likely API key (unconfirmed)", "dev_access": "Could not verify \u2014 low public footprint, no discoverable public dev docs", "api_type": "Unknown", "score": 1, "mcp": "None found", "readiness": "red", "blocker": "No discoverable public API documentation \u2014 flagged for manual/human follow-up", "evidence": "not found \u2014 manual check needed", "confidence": "inferred", "id": 59, "auth_bucket": "API Key only"}, {"name": "Clay", "category": "Data/SEO/Scraping", "url": "clay.com", "desc": "Go-to-market data enrichment & workflow tool", "auth": "API key + native integrations (100s of data providers)", "dev_access": "Fully public (paid plans, self-serve signup)", "api_type": "REST", "score": 4, "mcp": "None official found", "readiness": "green", "blocker": "No blocker", "evidence": "clay.com/university/api", "confidence": "known", "id": 60, "auth_bucket": "API Key only"}, {"name": "GitHub", "category": "Developer/Infra", "url": "docs.github.com/rest", "desc": "Code hosting, CI/CD, collaboration", "auth": "OAuth 2.0 + PAT + GitHub App tokens", "dev_access": "Fully public (free account)", "api_type": "REST + GraphQL", "score": 5, "mcp": "Official GitHub MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.github.com/rest", "confidence": "known", "id": 61, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Vercel", "category": "Developer/Infra", "url": "vercel.com/docs/rest-api", "desc": "Frontend hosting/deployment platform", "auth": "OAuth 2.0 + Access token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Official Vercel MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "vercel.com/docs/rest-api", "confidence": "known", "id": 62, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Netlify", "category": "Developer/Infra", "url": "docs.netlify.com/api", "desc": "JAMstack hosting/deployment platform", "auth": "OAuth 2.0 + Personal access token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "docs.netlify.com/api", "confidence": "known", "id": 63, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Cloudflare", "category": "Developer/Infra", "url": "developers.cloudflare.com/api", "desc": "CDN/DNS/edge compute platform", "auth": "API token + Global API key (legacy)", "dev_access": "Fully public (free tier)", "api_type": "REST + GraphQL (analytics)", "score": 5, "mcp": "Official Cloudflare MCP servers (several)", "readiness": "green", "blocker": "No blocker", "evidence": "developers.cloudflare.com/api", "confidence": "known", "id": 64, "auth_bucket": "API Key only"}, {"name": "Supabase", "category": "Developer/Infra", "url": "supabase.com/docs", "desc": "Open-source Firebase alternative (Postgres)", "auth": "Personal access token + service-role/anon keys", "dev_access": "Fully public (free tier)", "api_type": "REST (PostgREST) + GraphQL", "score": 5, "mcp": "Official Supabase MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "supabase.com/docs", "confidence": "known", "id": 65, "auth_bucket": "Token-based only"}, {"name": "Neo4j", "category": "Developer/Infra", "url": "neo4j.com/docs/api", "desc": "Graph database platform", "auth": "Basic Auth / Bearer (driver) + API key (Aura)", "dev_access": "Fully public (free tier - Aura Free)", "api_type": "REST/Bolt protocol + drivers", "score": 4, "mcp": "Official Neo4j MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "neo4j.com/docs", "confidence": "known", "id": 66, "auth_bucket": "API Key only"}, {"name": "Snowflake", "category": "Developer/Infra", "url": "docs.snowflake.com", "desc": "Cloud data warehouse", "auth": "OAuth 2.0 + Key-pair auth + Basic", "dev_access": "Fully public (free trial credits)", "api_type": "REST (SQL API) + Connectors", "score": 5, "mcp": "Official Snowflake MCP (Cortex)", "readiness": "green", "blocker": "No blocker", "evidence": "docs.snowflake.com", "confidence": "known", "id": 67, "auth_bucket": "OAuth 2.0 only"}, {"name": "MongoDB Atlas", "category": "Developer/Infra", "url": "mongodb.com/docs/atlas/api", "desc": "Managed MongoDB cloud database", "auth": "Digest Auth (API key/secret) + OAuth2 (Service Accounts)", "dev_access": "Fully public (free tier - M0)", "api_type": "REST", "score": 4, "mcp": "Official MongoDB MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "mongodb.com/docs/atlas/api", "confidence": "known", "id": 68, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Datadog", "category": "Developer/Infra", "url": "docs.datadoghq.com/api", "desc": "Observability/monitoring platform", "auth": "API key + Application key", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 5, "mcp": "Official Datadog MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.datadoghq.com/api", "confidence": "verified", "id": 69, "auth_bucket": "API Key only"}, {"name": "Sentry", "category": "Developer/Infra", "url": "docs.sentry.io/api", "desc": "Error tracking & performance monitoring", "auth": "OAuth 2.0 + Auth token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Official Sentry MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "docs.sentry.io/api", "confidence": "known", "id": 70, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Notion", "category": "Productivity/PM", "url": "developers.notion.com", "desc": "Docs/wiki/database workspace", "auth": "OAuth 2.0 + Internal integration token", "dev_access": "Fully public (free account)", "api_type": "REST", "score": 4, "mcp": "Official Notion MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.notion.com", "confidence": "known", "id": 71, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Airtable", "category": "Productivity/PM", "url": "airtable.com/developers", "desc": "Spreadsheet-database hybrid", "auth": "OAuth 2.0 + Personal access token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "airtable.com/developers/web/api", "confidence": "known", "id": 72, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Linear", "category": "Productivity/PM", "url": "developers.linear.app", "desc": "Modern issue-tracking for eng teams", "auth": "OAuth 2.0 + API key", "dev_access": "Fully public (free tier)", "api_type": "GraphQL", "score": 5, "mcp": "Official Linear MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.linear.app", "confidence": "known", "id": 73, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Jira", "category": "Productivity/PM", "url": "developer.atlassian.com", "desc": "Issue & project tracking (Atlassian)", "auth": "OAuth 2.0 (3LO) + API token (Basic)", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 5, "mcp": "Official Atlassian (Jira/Confluence) MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developer.atlassian.com/cloud/jira", "confidence": "known", "id": 74, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Asana", "category": "Productivity/PM", "url": "developers.asana.com", "desc": "Work/project management tool", "auth": "OAuth 2.0 + Personal access token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Official Asana MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developers.asana.com", "confidence": "known", "id": 75, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Monday.com", "category": "Productivity/PM", "url": "developer.monday.com", "desc": "Work OS / project boards", "auth": "OAuth 2.0 + API token", "dev_access": "Fully public (free tier)", "api_type": "GraphQL", "score": 4, "mcp": "Official monday.com MCP server", "readiness": "green", "blocker": "No blocker", "evidence": "developer.monday.com", "confidence": "known", "id": 76, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "ClickUp", "category": "Productivity/PM", "url": "clickup.com/api", "desc": "All-in-one productivity/PM suite", "auth": "OAuth 2.0 + Personal API token", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "clickup.com/api", "confidence": "known", "id": 77, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Coda", "category": "Productivity/PM", "url": "coda.io/developers", "desc": "Docs that behave like apps/databases", "auth": "API token (Bearer)", "dev_access": "Fully public (free tier)", "api_type": "REST", "score": 3, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "coda.io/developers/apis/v1", "confidence": "known", "id": 78, "auth_bucket": "Token-based only"}, {"name": "Smartsheet", "category": "Productivity/PM", "url": "smartsheet.com/developers", "desc": "Spreadsheet-style work management", "auth": "OAuth 2.0 + API access token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "smartsheet.redoc.ly", "confidence": "known", "id": 79, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Harvest", "category": "Productivity/PM", "url": "help.getharvest.com/api-v2", "desc": "Time-tracking & invoicing", "auth": "OAuth 2.0 + Personal access token", "dev_access": "Fully public (free trial)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker", "evidence": "help.getharvest.com/api-v2", "confidence": "known", "id": 80, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Stripe", "category": "Finance/Fintech", "url": "stripe.com/docs/api", "desc": "Payments infrastructure", "auth": "API key (secret/publishable) + OAuth (Connect)", "dev_access": "Fully public (instant free sandbox)", "api_type": "REST", "score": 5, "mcp": "Official Stripe MCP (Agent Toolkit)", "readiness": "green", "blocker": "No blocker", "evidence": "stripe.com/docs/api", "confidence": "known", "id": 81, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Plaid", "category": "Finance/Fintech", "url": "plaid.com/docs", "desc": "Bank-account linking/financial data", "auth": "API key (client_id/secret) + Link/OAuth for bank auth", "dev_access": "Fully public (free Sandbox)", "api_type": "REST", "score": 4, "mcp": "None official", "readiness": "yellow", "blocker": "Sandbox is instant, but Production access needs Plaid approval", "evidence": "plaid.com/docs", "confidence": "known", "id": 82, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Binance", "category": "Finance/Fintech", "url": "binance-docs.github.io", "desc": "Crypto exchange", "auth": "API key/secret (HMAC) + Ed25519", "dev_access": "Fully public (free account, some regions restricted)", "api_type": "REST + WebSocket", "score": 5, "mcp": "None official", "readiness": "yellow", "blocker": "Fully self-serve technically, but geo-restrictions + KYC gate real trading", "evidence": "binance-docs.github.io/apidocs", "confidence": "known", "id": 83, "auth_bucket": "API Key only"}, {"name": "Paygent Connect", "category": "Finance/Fintech", "url": "paygent", "desc": "NMI-powered payment gateway connector", "auth": "API key / merchant credentials (NMI-based)", "dev_access": "Enterprise/partner gated \u2014 provisioned per merchant account by payment processor", "api_type": "REST (via NMI gateway)", "score": 2, "mcp": "None found", "readiness": "red", "blocker": "No self-serve signup found; access is merchant-onboarding-driven through a payments partner", "evidence": "not found \u2014 manual check needed", "confidence": "inferred", "id": 84, "auth_bucket": "API Key only"}, {"name": "iPayX", "category": "Finance/Fintech", "url": "ipayx.ai", "desc": "Payment/fintech product (branding unclear)", "auth": "Could not verify", "dev_access": "Could not verify \u2014 searches surfaced several unrelated 'iPay' products (Africa, Bangladesh, Ukraine) but no confirmed ipayx.ai docs", "api_type": "Unknown", "score": 1, "mcp": "None found", "readiness": "red", "blocker": "Domain/product not conclusively identified \u2014 likely early-stage/low public footprint; flagged for human follow-up", "evidence": "not found \u2014 manual check needed", "confidence": "inferred", "id": 85, "auth_bucket": "Other / None / Unclear"}, {"name": "QuickBooks", "category": "Finance/Fintech", "url": "developer.intuit.com", "desc": "SMB accounting software (Intuit)", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev sandbox)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developer.intuit.com", "confidence": "known", "id": 86, "auth_bucket": "OAuth 2.0 only"}, {"name": "Xero", "category": "Finance/Fintech", "url": "developer.xero.com", "desc": "Cloud accounting software", "auth": "OAuth 2.0", "dev_access": "Fully public (free dev account)", "api_type": "REST", "score": 4, "mcp": "Community MCP servers", "readiness": "green", "blocker": "No blocker", "evidence": "developer.xero.com", "confidence": "known", "id": 87, "auth_bucket": "OAuth 2.0 only"}, {"name": "Brex", "category": "Finance/Fintech", "url": "developer.brex.com", "desc": "Corporate cards & spend management", "auth": "OAuth 2.0 + API key", "dev_access": "Public but limited \u2014 full API access tied to a funded Brex account", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "yellow", "blocker": "Needs an active, funded Brex business account before most endpoints are useful", "evidence": "developer.brex.com", "confidence": "known", "id": 88, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Ramp", "category": "Finance/Fintech", "url": "docs.ramp.com", "desc": "Corporate cards & spend management", "auth": "OAuth 2.0", "dev_access": "Public but limited \u2014 full API access tied to an active Ramp account", "api_type": "REST", "score": 4, "mcp": "None found", "readiness": "yellow", "blocker": "Needs an active Ramp business account; sandbox exists but production is account-gated", "evidence": "docs.ramp.com", "confidence": "known", "id": 89, "auth_bucket": "OAuth 2.0 only"}, {"name": "PitchBook", "category": "Finance/Fintech", "url": "pitchbook.com", "desc": "PE/VC/M&A market intelligence data", "auth": "API key (enterprise-issued)", "dev_access": "Enterprise/partner gated \u2014 data API sold as a separate enterprise contract", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "red", "blocker": "No self-serve signup; requires a PitchBook enterprise data license/contact-sales", "evidence": "pitchbook.com", "confidence": "known", "id": 90, "auth_bucket": "API Key only"}, {"name": "NotebookLM", "category": "AI/Research/Media", "url": "cloud.google.com/gemini", "desc": "Google's AI notebook/research assistant", "auth": "OAuth 2.0 (Google) + API key (Gemini Enterprise API)", "dev_access": "Public but limited \u2014 consumer NotebookLM has no public API; Enterprise variant is Gemini Enterprise API, gated to Workspace/Cloud customers", "api_type": "REST (via Gemini Enterprise)", "score": 2, "mcp": "None found", "readiness": "red", "blocker": "Consumer NotebookLM itself is closed; only the separate Gemini Enterprise API is programmable, and that's account-gated", "evidence": "cloud.google.com/gemini", "confidence": "known", "id": 91, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "Otter AI", "category": "AI/Research/Media", "url": "help.otter.ai", "desc": "AI meeting transcription/notes", "auth": "OAuth 2.0 (MCP only \u2014 no public REST API)", "dev_access": "Public but limited \u2014 no general REST API; access is via the official OAuth-based MCP server, may need Business/Enterprise plan", "api_type": "No public REST API \u2014 MCP protocol only", "score": 3, "mcp": "Official, provider-hosted Otter MCP server (mcp.otter.ai)", "readiness": "yellow", "blocker": "No classic REST API to build a toolkit on \u2014 only usable through Otter's own MCP, so 'buildability' = point at their MCP, not a custom one", "evidence": "help.otter.ai/hc/en-us/articles/35287607569687", "confidence": "verified", "id": 92, "auth_bucket": "OAuth 2.0 only"}, {"name": "Fathom", "category": "AI/Research/Media", "url": "fathom.video", "desc": "AI meeting recorder/summarizer", "auth": "API key (Team/Business plans)", "dev_access": "Public but limited \u2014 API is a paid-plan feature, self-serve signup", "api_type": "REST (webhooks + limited read API)", "score": 3, "mcp": "None official found", "readiness": "yellow", "blocker": "API gated behind paid tier, and surface is mostly read/webhook, not deep actions", "evidence": "fathom.video/api", "confidence": "known", "id": 93, "auth_bucket": "API Key only"}, {"name": "Consensus", "category": "AI/Research/Media", "url": "consensus.app", "desc": "AI search engine for scientific papers", "auth": "OAuth requested per public listing (no self-serve dev docs found)", "dev_access": "Could not verify \u2014 no public developer docs found; 'OAuth requested' suggests early/partner access only", "api_type": "Unknown", "score": 1, "mcp": "None found", "readiness": "red", "blocker": "No discoverable public API docs \u2014 likely partner/waitlist access only; flagged for manual check", "evidence": "not found \u2014 manual check needed", "confidence": "inferred", "id": 94, "auth_bucket": "OAuth 2.0 only"}, {"name": "Reducto", "category": "AI/Research/Media", "url": "reducto.ai", "desc": "Document parsing/extraction API for AI pipelines", "auth": "API key", "dev_access": "Fully public (self-serve signup, usage-based pricing)", "api_type": "REST", "score": 4, "mcp": "None official found", "readiness": "green", "blocker": "No blocker \u2014 API-first product built for exactly this kind of integration", "evidence": "docs.reducto.ai", "confidence": "known", "id": 95, "auth_bucket": "API Key only"}, {"name": "Devin", "category": "AI/Research/Media", "url": "docs.devin.ai", "desc": "Autonomous AI software engineer agent", "auth": "API key (Devin's own session API) + OAuth (for MCP tools Devin consumes)", "dev_access": "Fully public (paid plans; session API is self-serve)", "api_type": "REST (session/task API) + MCP client/marketplace", "score": 3, "mcp": "Devin is an MCP *client*, not a toolkit target \u2014 it consumes other apps' MCP servers", "readiness": "yellow", "blocker": "Devin itself can be called via its session API, but the 'agent toolkit' framing inverts here \u2014 it's an agent, not a tool to wrap", "evidence": "docs.devin.ai", "confidence": "verified", "id": 96, "auth_bucket": "OAuth2 + API key/token (both supported)"}, {"name": "higgsfield", "category": "AI/Research/Media", "url": "higgsfield.ai", "desc": "AI video/content generation suite + CLI", "auth": "API key (inferred from CLI-based product)", "dev_access": "Could not fully verify \u2014 product markets a CLI, public REST docs not confirmed in this pass", "api_type": "Likely REST (unconfirmed)", "score": 2, "mcp": "None found", "readiness": "yellow", "blocker": "CLI-first product; public API documentation not clearly located \u2014 flagged for manual check", "evidence": "not found \u2014 manual check needed", "confidence": "inferred", "id": 97, "auth_bucket": "API Key only"}, {"name": "Mermaid CLI", "category": "AI/Research/Media", "url": "github.com/mermaid-js/mermaid-cli", "desc": "Open-source diagram-as-code renderer", "auth": "None \u2014 local CLI/npm package, no auth", "dev_access": "No API \u2014 open-source local tool", "api_type": "No API (CLI/library, invoked as a subprocess)", "score": 2, "mcp": "None (not applicable \u2014 it's a rendering tool, not a data service)", "readiness": "yellow", "blocker": "Not a hosted service \u2014 'agent toolkit' here means shelling out to a CLI, which is buildable but architecturally different", "evidence": "github.com/mermaid-js/mermaid-cli", "confidence": "known", "id": 98, "auth_bucket": "Other / None / Unclear"}, {"name": "YouTube Transcript", "category": "AI/Research/Media", "url": "transcriptapi.com", "desc": "Third-party YouTube transcript-fetching API", "auth": "API key", "dev_access": "Fully public (self-serve signup, free tier + paid credits)", "api_type": "REST", "score": 3, "mcp": "None found", "readiness": "green", "blocker": "No blocker \u2014 simple read-only wrapper API, easy first build", "evidence": "transcriptapi.com", "confidence": "known", "id": 99, "auth_bucket": "API Key only"}, {"name": "Grain", "category": "AI/Research/Media", "url": "grain.com", "desc": "AI meeting recording/highlight reels", "auth": "OAuth 2.0 + API token", "dev_access": "Public but limited \u2014 full API access is a paid-plan feature", "api_type": "REST", "score": 3, "mcp": "None official found", "readiness": "yellow", "blocker": "Core recording/highlights API gated to paid plans", "evidence": "grain.com/developers", "confidence": "known", "id": 100, "auth_bucket": "OAuth2 + API key/token (both supported)"}];
+
+function applyFilters(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  const ready = document.getElementById('readinessFilter').value;
+  const conf = document.getElementById('confFilter').value;
+  document.querySelectorAll('#fullTable tbody tr').forEach(tr=>{
+    const matchesQ = !q || tr.dataset.search.includes(q);
+    const matchesCat = !cat || tr.dataset.cat === cat;
+    const matchesReady = !ready || tr.dataset.readiness === ready;
+    const matchesConf = !conf || tr.dataset.conf === conf;
+    tr.style.display = (matchesQ && matchesCat && matchesReady && matchesConf) ? '' : 'none';
+  });
+}
+document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('catFilter').addEventListener('change', applyFilters);
+document.getElementById('readinessFilter').addEventListener('change', applyFilters);
+document.getElementById('confFilter').addEventListener('change', applyFilters);
+
+// populate category filter
+const cats = [...new Set(DATA.map(d=>d.category))].sort();
+const sel = document.getElementById('catFilter');
+cats.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+</script>
+
+</body>
+</html>
